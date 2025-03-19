@@ -1,6 +1,6 @@
-import { Container, Typography, Grid, Box, Paper } from "@mui/material";
+import { Container, Typography, Grid, Box, Paper, alpha } from "@mui/material";
 import { motion } from "framer-motion";
-import BuildIcon from "@mui/icons-material/Build";
+import DiamondIcon from "@mui/icons-material/Diamond";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import SpeedIcon from "@mui/icons-material/Speed";
@@ -9,107 +9,206 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import ScrollAnimatedSection from "./ScrollAnimatedSection";
 import { Boat } from "../../models/Boat";
 
-const MotionPaper = motion(Paper);
+const MotionPaper = motion.create(Paper);
 
 interface SpecificationsSectionProps {
     boat: Boat;
 }
 
 const SpecificationsSection = ({ boat }: SpecificationsSectionProps) => {
-    // Define specifications
+    // Define specifications with more modest language
     const specifications = [
         {
-            label: "Length",
-            value: boat.length ? `${boat.length} ft` : "N/A",
-            icon: <StraightenIcon sx={{ fontSize: 40 }} />,
+            label: "Longueur",
+            value: boat.length ? `${boat.length} m` : "Non spécifié",
+            icon: <StraightenIcon sx={{ fontSize: 48 }} />,
+            description: "Dimensions totales du navire"
         },
         {
-            label: "Width",
-            value: boat.width ? `${boat.width} ft` : "N/A",
-            icon: <StraightenIcon sx={{ fontSize: 40 }} />,
+            label: "Largeur",
+            value: boat.width ? `${boat.width} m` : "Non spécifié",
+            icon: <StraightenIcon sx={{ fontSize: 48 }} />,
+            description: "Espace intérieur confortable"
         },
         { 
-            label: "Year Built", 
-            value: boat.year_built || "N/A", 
-            icon: <DateRangeIcon sx={{ fontSize: 40 }} /> 
+            label: "Année", 
+            value: boat.year_built || "Non spécifié", 
+            icon: <DateRangeIcon sx={{ fontSize: 48 }} />,
+            description: "Année de construction"
         },
         { 
-            label: "Engine Power", 
-            value: boat.engine_power || "N/A", 
-            icon: <SpeedIcon sx={{ fontSize: 40 }} /> 
+            label: "Puissance", 
+            value: boat.engine_power || "Non spécifié", 
+            icon: <SpeedIcon sx={{ fontSize: 48 }} />,
+            description: "Performance du moteur"
         },
         { 
-            label: "Fuel Type", 
-            value: boat.fuel_type || "N/A", 
-            icon: <LocalGasStationIcon sx={{ fontSize: 40 }} /> 
+            label: "Carburant", 
+            value: boat.fuel_type || "Non spécifié", 
+            icon: <LocalGasStationIcon sx={{ fontSize: 48 }} />,
+            description: "Type de propulsion"
         },
         {
-            label: "Category",
-            value: boat.category_detail?.name || "N/A",
-            icon: <DirectionsBoatIcon sx={{ fontSize: 40 }} />,
+            label: "Catégorie",
+            value: boat.category_detail?.name || "Non spécifié",
+            icon: <DirectionsBoatIcon sx={{ fontSize: 48 }} />,
+            description: "Classification du bateau"
         },
     ];
 
     return (
         <ScrollAnimatedSection id="specs">
-            <Container maxWidth="xl">
-                <Box sx={{ mb: 8, display: "flex", alignItems: "center" }}>
-                    <BuildIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-                    <Typography variant="h3" component="h2">
-                        Detailed Specifications
-                    </Typography>
-                </Box>
-
-                <Grid container spacing={2}>
-                    {specifications.map((spec, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <MotionPaper
-                                whileHover={{
-                                    y: -10,
-                                    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-                                    background: "linear-gradient(135deg, #ffffff 0%, #f0f4f9 100%)",
-                                }}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 * index }}
-                                sx={{
-                                    p: 4,
-                                    borderRadius: 4,
-                                    height: "100%",
-                                    width: "auto",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    textAlign: "center",
-                                    background: "white",
-                                    transition: "all 0.3s ease",
+            <Box sx={{ 
+                background: "linear-gradient(135deg, #f8f9fa 0%, #edf2f7 100%)",
+                py: 12,
+                borderRadius: 4,
+                boxShadow: "0 20px 80px rgba(0,0,0,0.08)",
+                mb: 8
+            }}>
+                <Container maxWidth="xl">
+                    <Box sx={{ 
+                        mb: 10, 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        alignItems: "center" 
+                    }}>
+                        <Box sx={{ 
+                            display: "flex", 
+                            alignItems: "center", 
+                            mb: 3 
+                        }}>
+                            <DiamondIcon sx={{ 
+                                fontSize: 54, 
+                                color: "primary.main", 
+                                mr: 2,
+                                filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.18))"
+                            }} />
+                            <Typography 
+                                variant="h2" 
+                                component="h2"
+                                sx={{ 
+                                    fontWeight: 300,
+                                    letterSpacing: "0.05em",
+                                    textTransform: "uppercase",
+                                    background: "linear-gradient(90deg, #0d47a1 0%, #1976d2 100%)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
                                 }}
                             >
-                                <Box
+                                Spécifications
+                            </Typography>
+                        </Box>
+                        <Typography 
+                            variant="h6" 
+                            color="text.secondary" 
+                            sx={{ 
+                                maxWidth: 700, 
+                                textAlign: "center",
+                                fontWeight: 300,
+                                fontStyle: "italic",
+                                mb: 4
+                            }}
+                        >
+                            Caractéristiques techniques du bateau
+                        </Typography>
+                    </Box>
+
+                    <Grid container spacing={4}>
+                        {specifications.map((spec, index) => (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <MotionPaper
+                                    whileHover={{
+                                        y: -15,
+                                        boxShadow: "0 25px 60px rgba(0,0,0,0.18)",
+                                        background: "rgb(255, 255, 255)",
+                                    }}
+                                    initial={{ opacity: 0, y: 40 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ 
+                                        delay: 0.15 * index,
+                                        duration: 0.8,
+                                        ease: "easeOut"
+                                    }}
                                     sx={{
+                                        p: 5,
+                                        borderRadius: 4,
+                                        height: "100%",
+                                        width: "auto",
                                         display: "flex",
+                                        flexDirection: "column",
                                         alignItems: "center",
-                                        justifyContent: "center",
-                                        mb: 2,
-                                        p: 2,
-                                        borderRadius: "50%",
-                                        bgcolor: "rgba(172, 190, 206, 0.2)",
-                                        color: "primary.main",
+                                        textAlign: "center",
+                                        background: "white",
+                                        transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                                        border: "1px solid rgba(0,0,0,0.03)",
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        "&::after": {
+                                            content: '""',
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: "100%",
+                                            background: `linear-gradient(135deg, ${alpha('#1976d2', 0.05)} 0%, transparent 100%)`,
+                                            zIndex: 0
+                                        }
                                     }}
                                 >
-                                    {spec.icon}
-                                </Box>
-                                <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                                    {spec.label}
-                                </Typography>
-                                <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                                    {spec.value}
-                                </Typography>
-                            </MotionPaper>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Container>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            mb: 3,
+                                            p: 2.5,
+                                            borderRadius: "50%",
+                                            bgcolor: alpha('#1976d2', 0.08),
+                                            color: "primary.main",
+                                            boxShadow: "0 10px 30px rgba(25, 118, 210, 0.2)",
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        {spec.icon}
+                                    </Box>
+                                    <Typography 
+                                        variant="h6" 
+                                        sx={{ 
+                                            mb: 1.5, 
+                                            fontWeight: 600,
+                                            letterSpacing: "0.03em",
+                                            color: "#0d47a1",
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        {spec.label}
+                                    </Typography>
+                                    <Typography 
+                                        variant="h4" 
+                                        sx={{ 
+                                            fontWeight: 700,
+                                            mb: 2,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        {spec.value}
+                                    </Typography>
+                                    <Typography 
+                                        variant="body2" 
+                                        color="text.secondary"
+                                        sx={{ 
+                                            fontStyle: "italic",
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        {spec.description}
+                                    </Typography>
+                                </MotionPaper>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
+            </Box>
         </ScrollAnimatedSection>
     );
 };

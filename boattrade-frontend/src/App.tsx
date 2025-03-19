@@ -15,7 +15,7 @@ const Layout = () => {
   return (
     <>
       <CssBaseline />
-      {/* <Header /> */}
+      <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/boats" element={<BoatListingPage />} />

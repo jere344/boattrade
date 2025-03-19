@@ -68,7 +68,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>I'm interested in this boat
+      <DialogTitle>Je suis intéressé par ce bateau
       </DialogTitle>
       
       <DialogContent>
@@ -77,14 +77,14 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
         </Typography>
         {success ? (
           <Alert severity="success" sx={{ my: 2 }}>
-            Your inquiry has been sent successfully! We'll contact you soon.
+            Votre demande a été envoyée avec succès ! Nous vous contacterons bientôt.
           </Alert>
         ) : (
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             
             <TextField
-              label="First Name"
+              label="Prénom"
               name="first_name"
               value={formData.first_name}
               onChange={handleChange}
@@ -94,7 +94,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
             />
             
             <TextField
-              label="Last Name"
+              label="Nom"
               name="last_name"
               value={formData.last_name}
               onChange={handleChange}
@@ -115,7 +115,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
             />
             
             <TextField
-              label="Phone (optional)"
+              label="Téléphone (facultatif)"
               name="phone"
               type="tel"
               value={formData.phone}
@@ -125,7 +125,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
             />
             
             <TextField
-              label="Comment"
+              label="Commentaire"
               name="comment"
               value={formData.comment}
               onChange={handleChange}
@@ -134,14 +134,14 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
               fullWidth
               required
               margin="normal"
-              placeholder="I'd like more information about this boat..."
+              placeholder="Je voudrais plus d'informations sur ce bateau..."
             />
           </Box>
         )}
       </DialogContent>
       
       <DialogActions>
-        <Button onClick={onClose} color="inherit">Cancel</Button>
+        <Button onClick={onClose} color="inherit">Annuler</Button>
         {!success && (
           <Button 
             type="submit" 
@@ -150,7 +150,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
             variant="contained"
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : "Submit Inquiry"}
+            {loading ? <CircularProgress size={24} /> : "Envoyer la demande"}
           </Button>
         )}
       </DialogActions>

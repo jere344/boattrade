@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Box } from "@mui/material";
 import { useScroll, useTransform, useSpring } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 interface ScrollAnimatedSectionProps {
     children: ReactNode;

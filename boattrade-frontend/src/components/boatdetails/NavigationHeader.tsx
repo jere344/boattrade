@@ -6,7 +6,7 @@ import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
 import { animate } from "framer-motion";
 import React from "react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 interface NavigationHeaderProps {
     boatTitle: string;
@@ -118,8 +118,8 @@ const NavigationHeader = ({ boatTitle, onInquiryClick }: NavigationHeaderProps) 
             sx={{
                 position: "fixed",
                 top: 10,
-                left: { xs: 16, sm: 32, md: 48 },
-                right: { xs: 16, sm: 32, md: 48 },
+                left: { xs: 16, sm: 75, md: 85 },
+                right: { xs: 85, sm: 75, md: 85 },
                 zIndex: 100,
                 py: 2.5,
                 px: 4,
@@ -318,7 +318,7 @@ const NavigationHeader = ({ boatTitle, onInquiryClick }: NavigationHeaderProps) 
                     >
                         <ArrowBackIcon />
                     </motion.div>
-                    <motion.span>Back to listings</motion.span>
+                    <motion.span>Retour</motion.span>
                 </MotionBox>
 
                 <MotionBox
@@ -377,7 +377,7 @@ const NavigationHeader = ({ boatTitle, onInquiryClick }: NavigationHeaderProps) 
                             }
                         }}
                     >
-                        Contact Seller
+                        Contactez-nous
                     </Button>
                 </MotionBox>
             </Box>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Typography, Container, Button, Chip } from "@mui/material";
 import { motion } from "framer-motion";
 import { Boat } from "../../models/Boat";
@@ -7,8 +7,8 @@ import StraightenIcon from "@mui/icons-material/Straighten";
 import waterVideo from "@assets/vecteezy-water-surface.mp4";
 import { useTransform, useScroll } from "framer-motion";
 
-const MotionBox = motion(Box);
-const MotionChip = motion(Chip);
+const MotionBox = motion.create(Box);
+const MotionChip = motion.create(Chip);
 
 interface HeroSectionProps {
     boat: Boat;
@@ -75,8 +75,19 @@ const HeroSection = ({ boat, selectedImage }: HeroSectionProps) => {
                     }}
                 >
                     <source src={waterVideo} type="video/mp4" />
-                    Your browser does not support the video tag.
+                    Votre navigateur ne supporte pas la balise vidéo.
                 </video>
+                <Box
+                    sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "40vh",
+                        background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)",
+                        zIndex: 3,
+                    }}
+                />
             </Box>
 
             {/* Boat Image Floating Over Video */}
@@ -138,7 +149,7 @@ const HeroSection = ({ boat, selectedImage }: HeroSectionProps) => {
                     }}
                 >
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                        {boat.category_detail?.name || "Boat"} • {boat.year_built || "Year N/A"}
+                        {boat.category_detail?.name || "Bateau"} • {boat.year_built || "Année N/A"}
                     </Typography>
 
                     <Typography variant="h2" component="h1" sx={{ mb: 3, textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
@@ -153,7 +164,7 @@ const HeroSection = ({ boat, selectedImage }: HeroSectionProps) => {
                         <MotionChip
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            label={boat.location || "Location not specified"}
+                            label={boat.location || "Lieu non spécifié"}
                             color="secondary"
                             size="medium"
                             icon={<LocationOnIcon />}
@@ -188,7 +199,7 @@ const HeroSection = ({ boat, selectedImage }: HeroSectionProps) => {
                 }}
             >
                 <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
-                    Scroll to explore
+                    Faites défiler pour explorer
                 </Typography>
                 <Box sx={{ fontSize: "2rem" }}>↓</Box>
             </MotionBox>

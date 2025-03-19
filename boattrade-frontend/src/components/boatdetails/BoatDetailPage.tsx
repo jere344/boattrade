@@ -28,7 +28,7 @@ import { Boat } from "../../models/Boat";
 import BoatInquiryForm from "./BoatInquiryForm";
 import { useTheme } from '@mui/material/styles';
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const BoatDetailPage = () => {
     const theme = useTheme();
@@ -38,11 +38,6 @@ const BoatDetailPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [showInquiryForm, setShowInquiryForm] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [videoLoaded, setVideoLoaded] = useState(false);
-
-    // Scroll progress for parallax effects
-    const { scrollYProgress } = useScroll();
-    const headerY = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
     useEffect(() => {
         const fetchBoat = async () => {
@@ -57,7 +52,7 @@ const BoatDetailPage = () => {
                     }
                 }
             } catch (err) {
-                setError("Failed to load boat details");
+                setError("Échec du chargement des détails du bateau");
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -73,10 +68,6 @@ const BoatDetailPage = () => {
 
     const handleThumbnailClick = (imageUrl: string) => {
         setSelectedImage(imageUrl);
-    };
-
-    const handleVideoLoaded = () => {
-        setVideoLoaded(true);
     };
 
     if (loading) {
@@ -116,7 +107,7 @@ const BoatDetailPage = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
                 >
-                    {error || "Boat not found"}
+                    {error || "Bateau non trouvé"}
                 </Typography>
             </Box>
         );
