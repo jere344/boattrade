@@ -4,6 +4,7 @@ export interface Inquiry {
   last_name: string;
   email: string;
   comment: string;
+  phone?: string;
 }
 
 export interface InquiryResponse {

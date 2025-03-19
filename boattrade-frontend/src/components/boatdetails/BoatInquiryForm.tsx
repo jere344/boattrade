@@ -17,6 +17,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
     first_name: '',
     last_name: '',
     email: '',
+    phone: '',
     comment: ''
   });
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
         first_name: formData.first_name,
         last_name: formData.last_name,
         email: formData.email,
+        phone: formData.phone,
         comment: formData.comment
       });
       
@@ -47,6 +49,7 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
         first_name: '',
         last_name: '',
         email: '',
+        phone: '',
         comment: ''
       });
       
@@ -108,6 +111,16 @@ const BoatInquiryForm = ({ boat, open, onClose }: BoatInquiryFormProps) => {
               onChange={handleChange}
               fullWidth
               required
+              margin="normal"
+            />
+            
+            <TextField
+              label="Phone (optional)"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              fullWidth
               margin="normal"
             />
             

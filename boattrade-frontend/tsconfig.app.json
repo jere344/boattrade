@@ -29,6 +29,7 @@
       "@components/*": ["src/components/*"],
       "@models/*": ["src/models/*"],
       "@services/*": ["src/services/*"],
+      "@theme/*": ["src/theme/*"],
     }
   },
   "include": ["src"]

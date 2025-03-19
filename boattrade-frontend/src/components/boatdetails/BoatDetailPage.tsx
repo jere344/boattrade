@@ -1,187 +1,225 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  Container, Typography, Grid, Paper, Box, Button, 
-  Chip, Divider, CircularProgress, Card, CardMedia 
-} from '@mui/material';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import SpeedIcon from '@mui/icons-material/Speed';
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
-import StraightenIcon from '@mui/icons-material/Straighten';
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    Typography,
+} from "@mui/material";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
-import api from '../../services/api';
-import { Boat } from '../../models/Boat';
-import BoatInquiryForm from './BoatInquiryForm';
+// Import components
+import ScrollAnimatedSection from "./ScrollAnimatedSection";
+import HeroSection from "./HeroSection";
+import QuickInfoSection from "./QuickInfoSection";
+import GallerySection from "./GallerySection";
+import OverviewSection from "./OverviewSection";
+import SpecificationsSection from "./SpecificationsSection";
+import ContactSection from "./ContactSection";
+import NavigationHeader from "./NavigationHeader";
+import AmenitiesTechnicalSection from "./AmenitiesTechnicalSection";
+
+// Import video background
+import waterVideo from "@assets/vecteezy-water-surface.mp4";
+
+import api from "../../services/api";
+import { Boat } from "../../models/Boat";
+import BoatInquiryForm from "./BoatInquiryForm";
+import { useTheme } from '@mui/material/styles';
+
+const MotionBox = motion(Box);
 
 const BoatDetailPage = () => {
-  const { boatId } = useParams();
-  const navigate = useNavigate();
-  const [boat, setBoat] = useState<Boat | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showInquiryForm, setShowInquiryForm] = useState(false);
+    const theme = useTheme();
+    const { boatId } = useParams();
+    const [boat, setBoat] = useState<Boat | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [showInquiryForm, setShowInquiryForm] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [videoLoaded, setVideoLoaded] = useState(false);
 
-  useEffect(() => {
-    const fetchBoat = async () => {
-      try {
-        if (boatId) {
-          const data = await api.getBoat(parseInt(boatId));
-          setBoat(data);
-        }
-      } catch (err) {
-        setError("Failed to load boat details");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    // Scroll progress for parallax effects
+    const { scrollYProgress } = useScroll();
+    const headerY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+
+    useEffect(() => {
+        const fetchBoat = async () => {
+            try {
+                if (boatId) {
+                    const data = await api.getBoat(parseInt(boatId));
+                    setBoat(data);
+                    // Set the main image as selected image by default
+                    const mainImg = data.images.find((img) => img.is_main) || data.images[0];
+                    if (mainImg) {
+                        setSelectedImage(mainImg.image);
+                    }
+                }
+            } catch (err) {
+                setError("Failed to load boat details");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBoat();
+    }, [boatId]);
+
+    const handleInquiryClick = () => {
+        setShowInquiryForm(true);
     };
 
-    fetchBoat();
-  }, [boatId]);
+    const handleThumbnailClick = (imageUrl: string) => {
+        setSelectedImage(imageUrl);
+    };
 
-  const handleInquiryClick = () => {
-    setShowInquiryForm(true);
-  };
+    const handleVideoLoaded = () => {
+        setVideoLoaded(true);
+    };
 
-  if (loading) {
+    if (loading) {
+        return (
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
+                sx={{ background: theme.palette.background.default }}
+            >
+                <motion.div
+                    initial={{ rotate: 0 }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                >
+                    <CircularProgress size={80} sx={{ color: theme.palette.primary.main }} />
+                </motion.div>
+            </Box>
+        );
+    }
+
+    if (error || !boat) {
+        return (
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
+                sx={{ background: theme.palette.background.default }}
+            >
+                <Typography
+                    variant="h6"
+                    color="error"
+                    component={motion.div}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {error || "Boat not found"}
+                </Typography>
+            </Box>
+        );
+    }
+
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error || !boat) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
-        <Typography variant="h6" color="error">{error || "Boat not found"}</Typography>
-      </Box>
-    );
-  }
-
-  // Find main image, or use first image if no main image is specified
-  const mainImage = boat.images.find(img => img.is_main) || boat.images[0];
-  
-  return (
-    <Container maxWidth="lg">
-      <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
-        <Grid container spacing={4}>
-          {/* Boat Title and Price */}
-          <Grid item xs={12}>
-            <Typography variant="h4" component="h1" gutterBottom>
-              {boat.title}
-            </Typography>
-            <Typography variant="h5" color="primary" gutterBottom>
-              ${boat.price.toLocaleString()}
-            </Typography>
-            <Chip 
-              label={boat.category_detail?.name || "Boat"} 
-              color="primary" 
-              size="small" 
-              icon={<DirectionsBoatIcon />} 
-              sx={{ mr: 1 }}
+        <Box
+            sx={{
+                minHeight: "100vh",
+                background: "linear-gradient(180deg, #f7f9fc 0%, #e8eef6 100%)",
+                overflow: "hidden",
+                scrollBehavior: "smooth",
+            }}
+        >
+            {/* Navigation Header */}
+            <NavigationHeader 
+                boatTitle={boat.title}
+                onInquiryClick={handleInquiryClick} 
             />
-          </Grid>
 
-          {/* Boat Images */}
-          <Grid item xs={12} md={7}>
-            {mainImage && (
-              <Card>
-                <CardMedia
-                  component="img"
-                  image={mainImage.image}
-                  alt={mainImage.caption || boat.title}
-                  sx={{ maxHeight: 400, objectFit: 'contain' }}
+            {/* Hero Section with Video Background */}
+            <HeroSection 
+                boat={boat}
+                selectedImage={selectedImage}
+            />
+
+            {/* Quick Info Section - new section for smooth transition */}
+            <QuickInfoSection 
+                boat={boat}
+                onInquiryClick={handleInquiryClick}
+            />
+
+            {/* Gallery Section */}
+            <ScrollAnimatedSection id="gallery">
+                <GallerySection 
+                    boat={boat} 
+                    onThumbnailClick={handleThumbnailClick} 
                 />
-              </Card>
-            )}
-            
-            {/* Thumbnail Gallery */}
-            {boat.images.length > 1 && (
-              <Box sx={{ display: 'flex', gap: 1, mt: 2, flexWrap: 'wrap' }}>
-                {boat.images.map(image => (
-                  <Card key={image.id} sx={{ width: 80, height: 60 }}>
-                    <CardMedia
-                      component="img"
-                      image={image.image}
-                      alt={image.caption || "Boat image"}
-                      sx={{ height: '100%', objectFit: 'cover' }}
-                    />
-                  </Card>
-                ))}
-              </Box>
-            )}
-          </Grid>
+            </ScrollAnimatedSection>
 
-          {/* Boat Specifications */}
-          <Grid item xs={12} md={5}>
-            <Typography variant="h6" gutterBottom>Specifications</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {boat.year_built && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <DateRangeIcon color="primary" />
-                  <Typography>Year: {boat.year_built}</Typography>
-                </Box>
-              )}
-              {boat.length && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <StraightenIcon color="primary" />
-                  <Typography>Length: {boat.length} ft</Typography>
-                </Box>
-              )}
-              {boat.width && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <StraightenIcon color="primary" />
-                  <Typography>Width: {boat.width} ft</Typography>
-                </Box>
-              )}
-              {boat.engine_power && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <SpeedIcon color="primary" />
-                  <Typography>Engine: {boat.engine_power}</Typography>
-                </Box>
-              )}
-              {boat.fuel_type && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <LocalGasStationIcon color="primary" />
-                  <Typography>Fuel Type: {boat.fuel_type}</Typography>
-                </Box>
-              )}
-            </Box>
+            {/* Overview Section */}
+            <ScrollAnimatedSection id="overview">
+                <OverviewSection 
+                    boat={boat} 
+                    onInquiryClick={handleInquiryClick} 
+                />
+            </ScrollAnimatedSection>
 
-            <Box sx={{ mt: 4 }}>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                size="large" 
-                fullWidth
-                onClick={handleInquiryClick}
-              >
-                I'm interested in this boat
-              </Button>
-            </Box>
-          </Grid>
+            {/* Specifications Section */}
+            <ScrollAnimatedSection id="specs">
+                <SpecificationsSection boat={boat} />
+            </ScrollAnimatedSection>
 
-          {/* Description */}
-          <Grid item xs={12}>
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="h6" gutterBottom>Description</Typography>
-            <Typography>{boat.description}</Typography>
-          </Grid>
-        </Grid>
-      </Paper>
+            {/* New Amenities & Technical Section */}
+            <ScrollAnimatedSection id="amenities-technical">
+                <Container maxWidth="lg" sx={{ py: 6 }}>
+                    <AmenitiesTechnicalSection boat={boat} />
+                </Container>
+            </ScrollAnimatedSection>
 
-      {/* Inquiry Form Dialog */}
-      {showInquiryForm && (
-        <BoatInquiryForm 
-          boat={boat} 
-          open={showInquiryForm} 
-          onClose={() => setShowInquiryForm(false)} 
-        />
-      )}
-    </Container>
-  );
+            {/* Contact Section */}
+            <ScrollAnimatedSection id="contact">
+                <ContactSection 
+                    boat={boat} 
+                    onInquiryClick={handleInquiryClick} 
+                />
+            </ScrollAnimatedSection>
+
+            {/* Inquiry Form Dialog */}
+            <AnimatePresence>
+                {showInquiryForm && (
+                    <MotionBox
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        sx={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: "rgba(0,0,0,0.6)",
+                            backdropFilter: "blur(8px)",
+                            zIndex: 1000,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <MotionBox
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 100, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            sx={{ width: "100%", maxWidth: "700px", m: 3 }}
+                        >
+                            <BoatInquiryForm boat={boat} open={showInquiryForm} onClose={() => setShowInquiryForm(false)} />
+                        </MotionBox>
+                    </MotionBox>
+                )}
+            </AnimatePresence>
+        </Box>
+    );
 };
 
 export default BoatDetailPage;

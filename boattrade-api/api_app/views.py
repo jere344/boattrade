@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
-from rest_framework.pagination import PageNumberPagination
 
 from .models import Boat, BoatCategory, BoatImage, Inquiry, SellRequest, SellRequestImage
 from .serializers import (
@@ -14,25 +13,17 @@ from .serializers import (
     InquirySerializer, SellRequestSerializer, BoatListSerializer
 )
 
-# Standard API pagination class
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
-
 # Public endpoints for visitors
 class BoatCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint to view boat categories"""
     queryset = BoatCategory.objects.all()
     serializer_class = BoatCategorySerializer
     permission_classes = [AllowAny]
-    pagination_class = StandardResultsSetPagination
 
 class BoatViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for listing and retrieving boats"""
     queryset = Boat.objects.filter(is_active=True).order_by('-created_at')
     permission_classes = [AllowAny]
-    pagination_class = StandardResultsSetPagination
     
     def get_serializer_class(self):
         if self.action == 'list':
@@ -94,6 +85,7 @@ def submit_inquiry(request):
         
         From: {inquiry.first_name} {inquiry.last_name}
         Email: {inquiry.email}
+        Phone: {inquiry.phone or 'Not provided'}
         
         Message:
         {inquiry.comment}

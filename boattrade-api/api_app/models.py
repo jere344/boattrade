@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import JSONField  # Import JSONField for complex data structures
 
 class BoatCategory(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom")
@@ -25,6 +26,9 @@ class Boat(models.Model):
     engine_power = models.CharField(max_length=100, null=True, blank=True, verbose_name="Puissance moteur")
     fuel_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="Type de carburant")
     
+    # Optional new field
+    location = models.CharField(max_length=200, blank=True, null=True, verbose_name="Localisation")
+    
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date de création de l'annonce")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour de l'annonce")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
@@ -35,6 +39,43 @@ class Boat(models.Model):
     class Meta:
         verbose_name = "Bateau"
         verbose_name_plural = "Bateaux"
+
+# New models for amenities and technical details - fully optional
+class AmenityItem(models.Model):
+    CATEGORY_CHOICES = [
+        ('interior', 'Intérieur'),
+        ('exterior', 'Extérieur'),
+    ]
+    
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, related_name='amenity_items', verbose_name="Bateau")
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, verbose_name="Catégorie")
+    name = models.CharField(max_length=100, verbose_name="Équipement")
+    
+    def __str__(self):
+        return f"{self.name} ({self.get_category_display()})"
+    
+    class Meta:
+        verbose_name = "Équipement (facultatif)"
+        verbose_name_plural = "Équipements (facultatif)"
+
+class TechnicalDetailItem(models.Model):
+    CATEGORY_CHOICES = [
+        ('electricity_equipment', 'Électricité / Annexe'),
+        ('rigging_sails', 'Accastillage / Voiles'),
+        ('electronics', 'Électronique'),
+    ]
+    
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, related_name='technical_detail_items', verbose_name="Bateau")
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="Catégorie")
+    name = models.CharField(max_length=100, verbose_name="Nom")
+    value = models.CharField(max_length=200, verbose_name="Valeur")
+    
+    def __str__(self):
+        return f"{self.name}: {self.value} ({self.get_category_display()})"
+    
+    class Meta:
+        verbose_name = "Détail technique (facultatif)"
+        verbose_name_plural = "Détails techniques (facultatif)"
 
 class BoatImage(models.Model):
     boat = models.ForeignKey(Boat, on_delete=models.CASCADE, related_name='images', verbose_name="Bateau")
@@ -57,6 +98,7 @@ class Inquiry(models.Model):
     email = models.EmailField(verbose_name="Email")
     comment = models.TextField(verbose_name="Commentaire")
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date de création")
+    phone = models.CharField(max_length=20, blank=True, verbose_name="Téléphone")
     is_processed = models.BooleanField(default=False, verbose_name="Traité")
     
     def __str__(self):
