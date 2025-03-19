@@ -1,0 +1,20 @@
+**Administrator (you):**  
+- Logs into the back office  
+- Adds/edits/deletes boat listings with:  
+    - Images  
+    - Description  
+    - Specifications  
+    - Category  
+    - Price  
+
+**Visitor:**  
+- Homepage  
+- Lists boats by category  
+- Searches for boats by specifications, price, etc.  
+- Views a specific boat  
+    - Clicks on "I'm interested in this boat"  
+        - Enters name, surname, email, and comment  
+        - The system sends you an email  
+- Clicks on "Sell my boat"  
+    - Enters name, surname, email, comment, and photos  
+    - The system sends you an email
