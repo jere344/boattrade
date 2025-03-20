@@ -1,7 +1,7 @@
 deployment:
   tasks:
     - export DJANGO_DIR=$HOME/repositories/boattrade/boattrade-api
-    - export REACT_DIR=$HOME/repositories/boattrade//boattrade-frontend
+    - export REACT_DIR=$HOME/repositories/boattrade/boattrade-frontend
     - export VENV_DIR=$HOME/virtualenv/repositories/boattrade/boattrade-api/3.12
 
     # Backend Setup
@@ -9,10 +9,10 @@ deployment:
     - source $VENV_DIR/bin/activate
     - cd $DJANGO_DIR
     - pip install --upgrade pip
-    - pip install -r $DJANGO_DIR/requirements.txt
-    - python3 $DJANGO_DIR/manage.py migrate
-    - python3 $DJANGO_DIR/manage.py collectstatic --noinput
-    - python3 $DJANGO_DIR/manage.py createsuperuser --noinput || true
+    - pip install -r requirements.txt
+    - python3 manage.py migrate
+    - python3 manage.py collectstatic --noinput
+    - python3 manage.py createsuperuser --noinput || true
 
     # Frontend Setup
     - echo "Building React app"
