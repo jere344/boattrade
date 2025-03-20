@@ -2,44 +2,28 @@
 deployment:
   tasks:
     - echo "starting deployment"
-    - export DEPLOY_ROOT=$HOME
-    - export DJANGO_DIR=$HOME/repositories/boattrade/boattrade-api
-    - export REACT_DIR=$HOME/repositories/boattrade/boattrade-frontend
-    - export VENV_DIR=$HOME/virtualenv/repositories/boattrade/boattrade-api/3.12
+    - export VENV_PATH=$HOME/virtualenv/django_api/3.12/bin/activate
+    - export DJANGO_PATH=$HOME/django_api
+    - export REACT_PATH=$HOME/react_app
+    - export REP_DJANGO_PATH=$HOME/repositories/boattrade/boattrade-api
+    - export REP_REACT_PATH=$HOME/repositories/boattrade/boattrade-frontend
 
-    # Copy Django files to deployment directory
-    - echo "Copying Django files to deployment directory"
-    - mkdir -p $DEPLOY_ROOT/boattrade-api
-    - cp -R $DJANGO_DIR/* $DEPLOY_ROOT/boattrade-api/
+    # copy from the repository to the deployment folder
+    - rsync -av $REP_DJANGO_PATH/ $DJANGO_PATH
+    - rsync -av $REP_REACT_PATH/ $REACT_PATH
 
-    # Copy React files to deployment directory
-    - echo "Copying React files to deployment directory"
-    - mkdir -p $DEPLOY_ROOT/boattrade-frontend
-    - cp -R $REACT_DIR/* $DEPLOY_ROOT/boattrade-frontend/
+    # setup python environment
+    - source $VENV_PATH
+    - pip install -r $DJANGO_PATH/requirements.txt
+    - python3 $DJANGO_PATH/manage.py migrate
+    - python3 $DJANGO_PATH/manage.py collectstatic --noinput
 
-    # Backend Setup
-    - echo "Activating virtual environment"
-    - source $VENV_DIR/bin/activate
-    - cd $DEPLOY_ROOT/boattrade-api
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - python3 manage.py migrate
-    - python3 manage.py collectstatic --noinput
-    - python3 manage.py createsuperuser --noinput || true
-
-    # Frontend Setup
-    - echo "Building React app"
-    - cd $DEPLOY_ROOT/boattrade-frontend
+    # setup react environment
+    - cd $REACT_PATH
     - npm install
     - npm run build
-    - cp $DEPLOY_ROOT/boattrade-frontend/.htaccess $DEPLOY_ROOT/boattrade-frontend/build/.htaccess
-    
-    # Copy React build to public_html
-    - echo "Copying React build to public_html"
-    - mkdir -p $DEPLOY_ROOT/public_html
-    - cp -R $DEPLOY_ROOT/boattrade-frontend/build/* $DEPLOY_ROOT/public_html/
+    # move the build folder to the public folder
+    - rsync -av --delete $REACT_PATH/build/ $DJANGO_PATH/public/
 
-    # Restart server
-    - echo "Restarting application"
-    - mkdir -p $DEPLOY_ROOT/boattrade-api/tmp
-    - touch $DEPLOY_ROOT/boattrade-api/tmp/restart.txt
+
+    
