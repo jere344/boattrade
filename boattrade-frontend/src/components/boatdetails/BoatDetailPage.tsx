@@ -20,13 +20,11 @@ import ContactSection from "./ContactSection";
 import NavigationHeader from "./NavigationHeader";
 import AmenitiesTechnicalSection from "./AmenitiesTechnicalSection";
 
-// Import video background
-import waterVideo from "@assets/vecteezy-water-surface.mp4";
-
 import api from "../../services/api";
 import { Boat } from "../../models/Boat";
 import BoatInquiryForm from "./BoatInquiryForm";
 import { useTheme } from '@mui/material/styles';
+import FooterSpacerSection from "@components/home/FooterSpacerSection";
 
 const MotionBox = motion.create(Box);
 
@@ -117,7 +115,7 @@ const BoatDetailPage = () => {
         <Box
             sx={{
                 minHeight: "100vh",
-                background: "linear-gradient(180deg, #f7f9fc 0%, #e8eef6 100%)",
+                background: "linear-gradient(180deg, #f7f9fc 0%, white 100%)",
                 overflow: "hidden",
                 scrollBehavior: "smooth",
             }}
@@ -209,6 +207,8 @@ const BoatDetailPage = () => {
                     </MotionBox>
                 )}
             </AnimatePresence>
+
+			<FooterSpacerSection />
         </Box>
     );
 };

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import (
     Boat, BoatCategory, BoatImage, Inquiry, 
-    SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem
+    SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem,
+    Testimonial
 )
 
 class BoatImageInline(admin.TabularInline):
@@ -77,4 +78,10 @@ class SellRequestAdmin(admin.ModelAdmin):
     mark_as_processed.short_description = "Mark selected sell requests as processed"
     
     actions = ['mark_as_processed']
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role', 'rating')
+    search_fields = ('name', 'role', 'quote')
+    list_filter = ('rating',)
 

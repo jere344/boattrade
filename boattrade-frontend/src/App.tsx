@@ -7,7 +7,6 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import SellMyBoatPage from './components/sell/SellMyBoatPage';
 import BoatDetailPage from './components/boatdetails/BoatDetailPage';
-import { getDarkTheme } from './theme/darkTheme';
 import { getLightTheme } from '@theme/lightTheme';
 
 // Layout component

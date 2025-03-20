@@ -7,12 +7,12 @@ export const getLightTheme = () => createTheme({
         primary: {
             main: "#5f6f8a",
             light: "#8f9fae",
-            dark: "#4f5971",
+            dark: "#3c4456",
         },
         secondary: {
             main: "#acbece",
-            light: "#ccdee8", // Added light variant for secondary
-            dark: "#8a9eb5", // Added dark variant for secondary
+            light: "#ccdee8",
+            dark: "#8a9eb5", 
         },
         error: {
             main: "#d32f2f",

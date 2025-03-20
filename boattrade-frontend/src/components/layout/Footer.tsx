@@ -11,7 +11,9 @@ import { socialMedia, navigationLinks, contactInfo, companyInfo } from "../../co
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
 const MotionGrid = motion.create(Grid);
-const MotionLink = motion.create(RouterLink);
+
+// Create a properly connected motion router link
+const MotionRouterLink = motion(RouterLink);
 
 const Footer = () => {
     const theme = useTheme();
@@ -95,79 +97,89 @@ const Footer = () => {
         },
     };
 
+    // Link hover animation
+    const linkHoverAnimation = {
+        initial: { width: 0 },
+        hover: { 
+            width: "100%", 
+            transition: { duration: 0.3, ease: "easeInOut" } 
+        }
+    };
+
     return (
-        <MotionBox
-            ref={ref}
-            animate={controls}
-            initial="hidden"
-            variants={containerVariants}
-            sx={{
-                position: "relative",
-                bgcolor: "transparent",
-                color: "white",
-                mt: "auto",
-                overflow: "hidden",
-            }}
-        >
-            {/* Main footer content with pattern background */}
-            <MotionBox
-                sx={{
-                    background: "linear-gradient(135deg, #1E3A5F 0%, #0E1C2F 100%)",
-                    pt: 6,
-                    pb: 6,
-                    boxShadow: "0 -10px 30px rgba(0, 0, 0, 0.2)",
-                    position: "relative",
-                    zIndex: 3,
-                    overflow: "hidden", // Add overflow hidden to contain the patterns
-                }}
-            >
-                {/* Compass rose pattern element */}
-                <Box
+        <>
+            {/* White card with rounded corner placed outside the animated container */}
+            <Box
                     sx={{
                         position: "absolute",
-                        top: "5%",
-                        right: "5%",
-                        width: "300px",
-                        height: "300px",
-                        opacity: 0.04,
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%23B0E0E6' stroke-width='2' fill='none' /%3E%3Cpath d='M50,10 L50,90 M10,50 L90,50' stroke='%23B0E0E6' stroke-width='1' /%3E%3Cpath d='M50,10 L55,50 L50,90 L45,50 Z' fill='%23B0E0E6' /%3E%3Cpath d='M10,50 L50,45 L90,50 L50,55 Z' fill='%23B0E0E6' /%3E%3Ccircle cx='50' cy='50' r='5' fill='%23B0E0E6' /%3E%3Cpath d='M26,26 L74,74 M26,74 L74,26' stroke='%23B0E0E6' stroke-width='0.5' stroke-dasharray='2,1' /%3E%3C/svg%3E")`,
+                        left: 0,
+                        right: 0,
+                        height: "150px",
+                        width: "100%",
+                        margin: "0 auto",
+                        background: "white",
+                        borderRadius: "0 0 100px 100px",
+                        zIndex: 4,
+                        marginTop: "-1px",
+                    }}
+                />
+            <MotionBox
+                ref={ref}
+                animate={controls}
+                initial="hidden"
+                variants={containerVariants}
+                sx={{
+                    position: "relative",
+                    bgcolor: "transparent",
+                    color: "white",
+                    mt: "auto",
+                    overflow: "hidden",
+                }}
+            >
+                {/* Main footer content with pattern background */}
+                <MotionBox
+                    sx={{
+                        background: "linear-gradient(135deg, #1E3A5F 0%, #0E1C2F 100%)",
+                        pt: 6,
+                        pb: 6,
+                        boxShadow: "0 -10px 30px rgba(0, 0, 0, 0.2)",
+                        position: "relative",
+                        zIndex: 3,
+                        overflow: "hidden", // Add overflow hidden to contain the patterns
+                    }}
+                >
+                    {/* Compass rose pattern element */}
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: "15%",
+                            right: "5%",
+                            width: "300px",
+                            height: "300px",
+                            opacity: 0.04,
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%23B0E0E6' stroke-width='2' fill='none' /%3E%3Cpath d='M50,10 L50,90 M10,50 L90,50' stroke='%23B0E0E6' stroke-width='1' /%3E%3Cpath d='M50,10 L55,50 L50,90 L45,50 Z' fill='%23B0E0E6' /%3E%3Cpath d='M10,50 L50,45 L90,50 L50,55 Z' fill='%23B0E0E6' /%3E%3Ccircle cx='50' cy='50' r='5' fill='%23B0E0E6' /%3E%3Cpath d='M26,26 L74,74 M26,74 L74,26' stroke='%23B0E0E6' stroke-width='0.5' stroke-dasharray='2,1' /%3E%3C/svg%3E")`,
                         backgroundSize: "contain",
                         backgroundRepeat: "no-repeat",
                         transform: "rotate(15deg)",
                         zIndex: -1,
                     }}
                 />
-				{/* Waves pattern element */}
-				<Box sx={{
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-					opacity: 0.05,
-					backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
-					backgroundSize: '100px 100px',
-					zIndex: 0
-				}}/>
+                    {/* Waves pattern element */}
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            opacity: 0.05,
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
+                        backgroundSize: "100px 100px",
+                        zIndex: 0,
+                    }}
+                />
 
-				{/* white card with rounded corner on top to simulate curves rising on the sides */}
-				<Box
-					sx={{
-						position: "absolute",
-						top: "-50px",
-						left: 0,
-						right: 0,
-						height: "150px",
-						width: "100%",
-						margin: "0 auto",
-						background: "#e8eef6",
-						borderRadius: "0 0 100px 100px",
-						zIndex: 1,
-					}}
-				/>
-
-
-                <Container maxWidth="lg" sx={{ marginTop: "130px" }}>
+                    <Container maxWidth="lg" sx={{ marginTop: "180px", position: "relative", zIndex: 5 }}>
                     <Grid container spacing={4}>
                         {/* Logo and about section */}
                         <MotionGrid item xs={12} sm={6} md={4} variants={itemVariants}>
@@ -271,30 +283,69 @@ const Footer = () => {
                                     gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr",
                                     gap: 1,
                                     mt: 3,
+                                    position: "relative",
+                                    zIndex: 10, // Ensure links are above decorative elements
                                 }}
                             >
                                 {navigationLinks.map((link, index) => (
-                                    <MotionLink
+                                    <MotionRouterLink
                                         key={index}
                                         to={link.path}
-                                        variant="body2"
-                                        color="inherit"
+                                        style={{ 
+                                            textDecoration: "none",
+                                            color: "white" 
+                                        }}
                                         sx={{
+                                            color: "white !important", // Override any inherited colors
+                                            textDecoration: "none !important", // Force no underline
                                             display: "block",
                                             mb: 1.5,
-                                            transition: "0.2s",
+                                            transition: "all 0.3s ease",
+                                            position: "relative",
+                                            cursor: "pointer",
+                                            paddingLeft: "8px",
+                                            fontWeight: 400,
+                                            fontSize: "0.9rem",
+                                            letterSpacing: "0.02em",
                                             "&:hover": {
-                                                color: "#B0E0E6",
+                                                color: theme.palette.secondary.light + " !important",
                                                 transform: "translateX(5px)",
                                             },
+                                            "&:visited": {
+                                                color: "white !important", // Override visited link color
+                                            },
+                                            // Create a custom underline effect
+                                            "&::after": {
+                                                content: '""',
+                                                position: "absolute",
+                                                bottom: "-2px",
+                                                left: 0,
+                                                width: 0,
+                                                height: "2px",
+                                                backgroundColor: theme.palette.secondary.light,
+                                                transition: "width 0.3s ease",
+                                                borderRadius: "1px",
+                                                opacity: 0.8,
+                                            },
+                                            "&:hover::after": {
+                                                width: "100%"
+                                            }
                                         }}
                                         whileHover={{
                                             x: 5,
                                             transition: { type: "spring", stiffness: 300 },
                                         }}
                                     >
-                                        {link.name}
-                                    </MotionLink>
+                                        <Typography 
+                                            variant="body2" 
+                                            sx={{ 
+                                                fontWeight: 400,
+                                                color: "inherit", 
+                                                transition: "inherit" 
+                                            }}>
+                                            {link.name}
+                                        </Typography>
+                                    </MotionRouterLink>
                                 ))}
                             </MotionBox>
                         </MotionGrid>
@@ -421,7 +472,9 @@ const Footer = () => {
                         variants={itemVariants}
                     >
                         <Grid item xs={12} sm={6}>
-                            <Typography variant="body2">© {new Date().getFullYear()} {companyInfo.name}. Tous droits réservés.</Typography>
+                            <Typography variant="body2">
+                                © {new Date().getFullYear()} {companyInfo.name}. Tous droits réservés.
+                            </Typography>
                         </Grid>
                     </MotionGrid>
                 </Container>
@@ -465,6 +518,7 @@ const Footer = () => {
                 })}
             </Box>
         </MotionBox>
+        </>
     );
 };
 

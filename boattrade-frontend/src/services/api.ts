@@ -5,6 +5,7 @@ import {
   CategoryListResponse,
   InquirySubmitResponse,
   SellRequestSubmitResponse,
+  TestimonialListResponse
 } from '@models/ApiResponses';
 import { Inquiry } from '@models/Inquiry';
 import { SellRequest } from '@models/SellRequest';
@@ -48,6 +49,12 @@ const api = {
   // Inquiries
   submitInquiry: async (inquiryData: Inquiry): Promise<InquirySubmitResponse> => {
     const response = await apiClient.post('/inquiries/', inquiryData);
+    return response.data;
+  },
+
+  // Testimonials
+  getTestimonials: async (): Promise<TestimonialListResponse> => {
+    const response = await apiClient.get('/testimonials/');
     return response.data;
   },
   

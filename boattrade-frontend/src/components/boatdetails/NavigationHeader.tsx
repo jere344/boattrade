@@ -332,26 +332,38 @@ const NavigationHeader = ({ boatTitle, onInquiryClick }: NavigationHeaderProps) 
                     }}
                 >
                     <MotionBox 
-                        style={{ y: floatY, rotate: rotateBoat }}
-                        sx={{ color: "#7CB9E8", marginRight: 1 }}
-                    >
-                        <DirectionsBoatIcon fontSize="small" />
-                    </MotionBox>
-                    
-                    <Typography 
-                        variant="h6" 
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => window.location.href = "/"}
                         sx={{ 
-                            fontWeight: 600,
-                            backgroundImage: 'linear-gradient(90deg, #B0E0E6, #7CB9E8)',
-                            backgroundClip: 'text',
-                            textFillColor: 'transparent',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            textShadow: '0 2px 10px rgba(124, 185, 232, 0.3)',
+                            display: "flex", 
+                            alignItems: "center", 
+                            gap: 1,
+                            cursor: "pointer"
                         }}
                     >
-                        {boatTitle}
-                    </Typography>
+                        <MotionBox 
+                            style={{ y: floatY, rotate: rotateBoat }}
+                            sx={{ color: "#7CB9E8", marginRight: 1 }}
+                        >
+                            <DirectionsBoatIcon fontSize="small" />
+                        </MotionBox>
+                        
+                        <Typography 
+                            variant="h6" 
+                            sx={{ 
+                                fontWeight: 600,
+                                backgroundImage: 'linear-gradient(90deg, #B0E0E6, #7CB9E8)',
+                                backgroundClip: 'text',
+                                textFillColor: 'transparent',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                textShadow: '0 2px 10px rgba(124, 185, 232, 0.3)',
+                            }}
+                        >
+                            {boatTitle}
+                        </Typography>
+                    </MotionBox>
                 </MotionBox>
 
                 <MotionBox

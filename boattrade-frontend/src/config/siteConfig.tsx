@@ -28,11 +28,9 @@ export const socialMedia = [
 // Navigation links
 export const navigationLinks = [
   { name: "Accueil", path: "/" },
-  { name: "Bateaux à vendre", path: "/boats" },
-  { name: "Vendre mon bateau", path: "/sell-my-boat" },
-  { name: "À propos de nous", path: "/about" },
+  { name: "Les bateaux de nos partenaires", path: "/boats" },
+  { name: "Nos services", path: "/sell-my-boat" },
   { name: "Services", path: "/services" },
-  { name: "Blog", path: "/blog" },
 ];
 
 // Contact information with icons

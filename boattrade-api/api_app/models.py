@@ -136,3 +136,21 @@ class SellRequestImage(models.Model):
     class Meta:
         verbose_name = "Image de demande de vente"
         verbose_name_plural = "Images de demandes de vente"
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Nom")
+    role = models.CharField(max_length=100, verbose_name="Rôle")
+    avatar = models.ImageField(upload_to='testimonials/', verbose_name="Avatar")
+    quote = models.TextField(verbose_name="Citation")
+    rating = models.IntegerField(
+        verbose_name="Note", 
+        choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')],
+        default=5
+    )
+    
+    def __str__(self):
+        return f"Témoignage de {self.name}"
+    
+    class Meta:
+        verbose_name = "Témoignage"
+        verbose_name_plural = "Témoignages"

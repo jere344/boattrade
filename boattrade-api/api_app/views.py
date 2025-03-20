@@ -7,10 +7,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 
-from .models import Boat, BoatCategory, BoatImage, Inquiry, SellRequest, SellRequestImage
+from .models import Boat, BoatCategory, BoatImage, Inquiry, SellRequest, SellRequestImage, Testimonial
 from .serializers import (
     BoatSerializer, BoatCategorySerializer, 
-    InquirySerializer, SellRequestSerializer, BoatListSerializer
+    InquirySerializer, SellRequestSerializer, BoatListSerializer,
+    TestimonialSerializer
 )
 
 # Public endpoints for visitors
@@ -155,3 +156,9 @@ def submit_sell_request(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TestimonialViewSet(viewsets.ReadOnlyModelViewSet):
+    """API endpoint to view testimonials"""
+    queryset = Testimonial.objects.all()
+    serializer_class = TestimonialSerializer
+    permission_classes = [AllowAny]

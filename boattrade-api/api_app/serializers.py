@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from .models import (
     Boat, BoatCategory, BoatImage, Inquiry, 
-    SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem
+    SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem,
+    Testimonial
 )
 
 class BoatCategorySerializer(serializers.ModelSerializer):
@@ -125,3 +126,8 @@ class SellRequestSerializer(serializers.ModelSerializer):
             'boat_details', 'comment', 'created_at', 'is_processed', 'images'
         ]
         read_only_fields = ['id', 'created_at', 'is_processed', 'images']
+
+class TestimonialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Testimonial
+        fields = ['id', 'name', 'role', 'avatar', 'quote', 'rating']
