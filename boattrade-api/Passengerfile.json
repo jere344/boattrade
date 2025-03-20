@@ -1,0 +1,8 @@
+{
+    "app_type": "python",
+    "startup_file": "passenger_wsgi.py",
+    "python": "python3",
+    "environment": {
+      "DJANGO_SETTINGS_MODULE": "api_project.settings"
+    }
+  }
