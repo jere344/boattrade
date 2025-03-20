@@ -1,8 +1,8 @@
 deployment:
   tasks:
-    - export DJANGO_DIR=$HOME/boattrade_api
-    - export REACT_DIR=$HOME/boattrade_frontend
-    - export VENV_DIR=$HOME/boattrade_api/.venv
+    - export DJANGO_DIR=$HOME/repositories/boattrade/boattrade_api
+    - export REACT_DIR=$HOME/repositories/boattrade//boattrade_frontend
+    - export VENV_DIR=$HOME/repositories/boattrade/boattrade_api/.venv
 
     # Backend Setup
     - echo "Activating virtual environment"
@@ -19,8 +19,7 @@ deployment:
     - cd $REACT_DIR
     - npm install
     - npm run build
-    - mkdir -p $DJANGO_DIR/static/
-    - rsync -a $REACT_DIR/build/ $DJANGO_DIR/static/
+    - cp $REACT_DIR/.htaccess $REACT_DIR/build/.htaccess
 
     # Restart server
     - echo "Restarting application"
