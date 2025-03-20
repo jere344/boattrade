@@ -23,7 +23,7 @@ deployment:
     - source $NODE_VENV_PATH
     - cd $REACT_PATH
     - npm install
-    - npx vite build --mode production
+    - NODE_OPTIONS=--max_old_space_size=2048 npx vite build --mode production
     # move the build folder to the public folder
     - rsync -av --delete $REACT_PATH/build/ $DJANGO_PATH/public/
 
