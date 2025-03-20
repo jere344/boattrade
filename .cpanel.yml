@@ -2,12 +2,12 @@ deployment:
   tasks:
     - export DJANGO_DIR=$HOME/repositories/boattrade/boattrade-api
     - export REACT_DIR=$HOME/repositories/boattrade//boattrade-frontend
-    - export VENV_DIR=$HOME/repositories/boattrade/boattrade-api/.venv
+    - export VENV_DIR=$HOME/virtualenv/repositories/boattrade/boattrade-api/3.12
 
     # Backend Setup
     - echo "Activating virtual environment"
-    - if [ ! -d "$VENV_DIR" ]; then python3 -m pip install --user virtualenv; python3 -m virtualenv $VENV_DIR; fi
     - source $VENV_DIR/bin/activate
+    - cd $DJANGO_DIR
     - pip install --upgrade pip
     - pip install -r $DJANGO_DIR/requirements.txt
     - python3 $DJANGO_DIR/manage.py migrate
