@@ -3,7 +3,7 @@ deployment:
   tasks:
     - echo "starting deployment"
     - export DJANGO_VENV_PATH=$HOME/virtualenv/django_api/3.12/bin/activate
-    - export NODE_VENV_PATH=$HOME/nodevenv/react_app/22/bin/activate
+    # - export NODE_VENV_PATH=$HOME/nodevenv/react_app/22/bin/activate
     - export DJANGO_PATH=$HOME/django_api
     - export REACT_PATH=$HOME/react_app
     - export REP_DJANGO_PATH=$HOME/repositories/boattrade/boattrade-api
@@ -20,12 +20,14 @@ deployment:
     - python3 $DJANGO_PATH/manage.py collectstatic --noinput
 
     # setup react environment
-    - source $NODE_VENV_PATH
-    - cd $REACT_PATH
-    - npm install
-    - NODE_OPTIONS=--max_old_space_size=2048 npx vite build --mode production
+    # - source $NODE_VENV_PATH
+    # - cd $REACT_PATH
+    # - npm install
+    # - NODE_OPTIONS=--max_old_space_size=2048 npx vite build --mode production
     # move the build folder to the public folder
-    - rsync -av --delete $REACT_PATH/build/ $DJANGO_PATH/public/
+    # instead we build in local and push the build folder to the server
+    # so we just move the build folder to the public folder
+    - rsync -av --delete $REP_REACT_PATH/dist/ $HOME/public_html
 
 
     
