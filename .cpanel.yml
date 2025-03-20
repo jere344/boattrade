@@ -2,7 +2,8 @@
 deployment:
   tasks:
     - echo "starting deployment"
-    - export VENV_PATH=$HOME/virtualenv/django_api/3.12/bin/activate
+    - export DJANGO_VENV_PATH=$HOME/virtualenv/django_api/3.12/bin/activate
+    - export NODE_VENV_PATH=$HOME/nodevenv/react_app/22/bin/activate
     - export DJANGO_PATH=$HOME/django_api
     - export REACT_PATH=$HOME/react_app
     - export REP_DJANGO_PATH=$HOME/repositories/boattrade/boattrade-api
@@ -13,12 +14,13 @@ deployment:
     - rsync -av $REP_REACT_PATH/ $REACT_PATH
 
     # setup python environment
-    - source $VENV_PATH
+    - source $DJANGO_VENV_PATH
     - pip install -r $DJANGO_PATH/requirements.txt
     - python3 $DJANGO_PATH/manage.py migrate
     - python3 $DJANGO_PATH/manage.py collectstatic --noinput
 
     # setup react environment
+    - source $NODE_VENV_PATH
     - cd $REACT_PATH
     - npm install
     - npm run build
