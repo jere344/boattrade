@@ -5,3 +5,4 @@ profile_pictures/
 game_environments/
 media/
 .env
+db.sqlite3
