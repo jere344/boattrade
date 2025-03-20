@@ -169,13 +169,13 @@ AUTH_USER_MODEL = 'auth_app.CustomUser'
 
 # Email settings
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST = os.environ.get("EMAIL_HOST",'mail.boattradeconsulting.fr')
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 465))
 EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "True") == "True"
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
-ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", 'messagerie-automatique@boattradeconsulting.fr')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'password')
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", 'BoatTrade<messagerie-automatique@boattradeconsulting.fr>')
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", 'jeremy.guerin34@yahoo.com')
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = os.environ.get("CORS_ALLOW_ALL_ORIGINS", "False") == "True"
