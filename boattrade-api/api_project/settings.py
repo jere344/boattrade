@@ -89,16 +89,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-        "ATOMIC_REQUESTS": True,  # Wrap each request in a transaction
-        "OPTIONS": {
-            "timeout": 20,  # Longer timeout for busy DB
-            "pragmas": {
-                "journal_mode": "wal",  # Write-ahead logging for better concurrency
-                "cache_size": -1 * 64000,  # 64MB cache
-                "foreign_keys": 1,  # Enforce foreign key constraints
-                "synchronous": 1,  # Normal synchronous mode - safer than OFF but faster than FULL
-            }
-        }
+        "ATOMIC_REQUESTS": True,
     }
 }
 
