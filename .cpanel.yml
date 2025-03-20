@@ -1,8 +1,8 @@
 deployment:
   tasks:
-    - export DJANGO_DIR=$HOME/boattrade-api
-    - export REACT_DIR=$HOME/boattrade-frontend
-    - export VENV_DIR=$HOME/boattrade-api/.venv
+    - export DJANGO_DIR=$HOME/boattrade_api
+    - export REACT_DIR=$HOME/boattrade_frontend
+    - export VENV_DIR=$HOME/boattrade_api/.venv
 
     # Backend Setup
     - echo "Activating virtual environment"
