@@ -28,13 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-)
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+CORS_ORIGIN_WHITELIST = tuple(os.environ.get("CORS_ORIGIN_WHITELIST", "http://localhost:5173,http://127.0.0.1:5173").split(","))
 
 
 # Application definition
@@ -92,8 +89,28 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        "ATOMIC_REQUESTS": True,  # Wrap each request in a transaction
+        "OPTIONS": {
+            "timeout": 20,  # Longer timeout for busy DB
+            "pragmas": {
+                "journal_mode": "wal",  # Write-ahead logging for better concurrency
+                "cache_size": -1 * 64000,  # 64MB cache
+                "foreign_keys": 1,  # Enforce foreign key constraints
+                "synchronous": 1,  # Normal synchronous mode - safer than OFF but faster than FULL
+            }
+        }
     }
 }
+
+# Ensure SQLite database directory has proper permissions
+import stat
+DB_DIR = BASE_DIR
+os.makedirs(DB_DIR, exist_ok=True)
+os.chmod(DB_DIR, stat.S_IRWXU)  # Owner has read/write/execute permissions
+
+# Backup directory
+SQLITE_BACKUP_DIR = os.path.join(BASE_DIR, os.environ.get('SQLITE_BACKUP_DIR', 'backups'))
+os.makedirs(SQLITE_BACKUP_DIR, exist_ok=True)
 
 
 # Password validation
@@ -170,4 +187,4 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # For development, restrict in production
+CORS_ALLOW_ALL_ORIGINS = os.environ.get("CORS_ALLOW_ALL_ORIGINS", "False") == "True"
