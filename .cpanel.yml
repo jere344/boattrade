@@ -2,14 +2,25 @@
 deployment:
   tasks:
     - echo "starting deployment"
+    - export DEPLOY_ROOT=$HOME
     - export DJANGO_DIR=$HOME/repositories/boattrade/boattrade-api
     - export REACT_DIR=$HOME/repositories/boattrade/boattrade-frontend
     - export VENV_DIR=$HOME/virtualenv/repositories/boattrade/boattrade-api/3.12
 
+    # Copy Django files to deployment directory
+    - echo "Copying Django files to deployment directory"
+    - mkdir -p $DEPLOY_ROOT/boattrade-api
+    - cp -R $DJANGO_DIR/* $DEPLOY_ROOT/boattrade-api/
+
+    # Copy React files to deployment directory
+    - echo "Copying React files to deployment directory"
+    - mkdir -p $DEPLOY_ROOT/boattrade-frontend
+    - cp -R $REACT_DIR/* $DEPLOY_ROOT/boattrade-frontend/
+
     # Backend Setup
     - echo "Activating virtual environment"
     - source $VENV_DIR/bin/activate
-    - cd $DJANGO_DIR
+    - cd $DEPLOY_ROOT/boattrade-api
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - python3 manage.py migrate
@@ -18,12 +29,17 @@ deployment:
 
     # Frontend Setup
     - echo "Building React app"
-    - cd $REACT_DIR
+    - cd $DEPLOY_ROOT/boattrade-frontend
     - npm install
     - npm run build
-    # - cp $REACT_DIR/.htaccess $REACT_DIR/build/.htaccess
+    - cp $DEPLOY_ROOT/boattrade-frontend/.htaccess $DEPLOY_ROOT/boattrade-frontend/build/.htaccess
+    
+    # Copy React build to public_html
+    - echo "Copying React build to public_html"
+    - mkdir -p $DEPLOY_ROOT/public_html
+    - cp -R $DEPLOY_ROOT/boattrade-frontend/build/* $DEPLOY_ROOT/public_html/
 
     # Restart server
     - echo "Restarting application"
-    - mkdir -p $DJANGO_DIR/tmp
-    - touch $DJANGO_DIR/tmp/restart.txt
+    - mkdir -p $DEPLOY_ROOT/boattrade-api/tmp
+    - touch $DEPLOY_ROOT/boattrade-api/tmp/restart.txt
