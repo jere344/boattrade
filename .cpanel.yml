@@ -18,6 +18,7 @@ deployment:
     - pip install -r $DJANGO_PATH/requirements.txt
     - python3 $DJANGO_PATH/manage.py migrate
     - python3 $DJANGO_PATH/manage.py collectstatic --noinput
+    - chmod -R 755 $DJANGO_PATH
 
     # setup react environment
     # - source $NODE_VENV_PATH
@@ -28,6 +29,8 @@ deployment:
     # instead we build in local and push the build folder to the server
     # so we just move the build folder to the public folder
     - rsync -av --delete $REP_REACT_PATH/dist/ $HOME/public_html
+    - chmod -R 755 $REACT_PATH
+    - cp $REP_REACT_PATH/.htaccess $HOME/public_html/.htaccess
 
 
     
