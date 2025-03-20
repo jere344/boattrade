@@ -23,7 +23,7 @@ deployment:
     - source $NODE_VENV_PATH
     - cd $REACT_PATH
     - npm install
-    - npm run prod-build
+    - npx vite build --mode production
     # move the build folder to the public folder
     - rsync -av --delete $REACT_PATH/build/ $DJANGO_PATH/public/
 
