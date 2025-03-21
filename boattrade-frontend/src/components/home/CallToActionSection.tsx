@@ -15,7 +15,7 @@ const CallToActionSection: React.FC = () => {
       sx={{
         py: { xs: 8, md: 12 },
         position: 'relative',
-        background: `linear-gradient(135deg, ${theme.palette.primary.dark}CC, ${theme.palette.primary.main}CC)`,
+        background: `linear-gradient(135deg, ${theme.palette.primary.dark}CC, ${theme.palette.primary.main})`,
         borderRadius: '16px',
         boxShadow: '0 20px 80px rgba(0,0,0,0.15)',
         overflow: 'hidden',

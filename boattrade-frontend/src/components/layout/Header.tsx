@@ -91,7 +91,7 @@ const Header = () => {
                     top: 16,
                     right: 16,
                     zIndex: 1300,
-                    color: open ? "#fff" : "#1E3A5F",
+                    color: theme.palette.primary.main,
                     bgcolor: open ? "transparent" : scrolled ? theme.palette.background.paper : theme.palette.text.primary,
                     backdropFilter: "blur(5px)",
                     boxShadow: open ? "none" : "0 2px 10px rgba(0,0,0,0.1)",
@@ -116,7 +116,7 @@ const Header = () => {
                     top: 70, // Positioned below the menu button
                     right: 16,
                     zIndex: 1300,
-                    color: "#1E3A5F",
+                    color: theme.palette.primary.main,
                     bgcolor: scrolled ? theme.palette.background.paper : theme.palette.text.primary,
                     backdropFilter: "blur(5px)",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
@@ -195,7 +195,7 @@ const Header = () => {
                                         cursor: "pointer",
                                     }}
                                 >
-                                    BoatTrade
+                                    {companyInfo.name}
                                 </Typography>
                             </RouterLink>
                         </MotionBox>

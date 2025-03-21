@@ -286,7 +286,7 @@ const TestimonialsSection: React.FC = () => {
                 xs={12} 
                 sm={isTablet ? 12 : 6} 
                 md={6} 
-                lg={3} 
+                lg={testimonial.quote.length > 200 ? 6 : 3}
                 key={testimonial.id}
               >
                 <TestimonialCard testimonial={testimonial} index={index} />

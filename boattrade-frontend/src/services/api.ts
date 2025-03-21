@@ -18,6 +18,7 @@ const apiClient = axios.create({
     'Accept': 'application/json'
   }
 });
+console.log(import.meta.env.VITE_API_BASE_URL);
 
 // Define interface for boat query parameters
 interface BoatQueryParams {

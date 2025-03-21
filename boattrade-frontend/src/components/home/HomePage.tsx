@@ -4,11 +4,12 @@ import { Box, Container } from '@mui/material';
 // Import components
 import HeroSection from './HeroSection.tsx';
 import CategorySection from './CategorySection.tsx';
-import HowItWorksSection from './HowItWorksSection.tsx';
+// import HowItWorksSection from './HowItWorksSection.tsx';
 import TestimonialsSection from './TestimonialsSection.tsx';
 import FeaturedListingsSection from './FeaturedListingsSection';
 import CallToActionSection from './CallToActionSection';
 import FooterSpacerSection from './FooterSpacerSection.tsx';
+import AboutCompanySection from './AboutCompanySection.tsx';
 
 const HomePage: React.FC = () => {
   return (
@@ -25,7 +26,11 @@ const HomePage: React.FC = () => {
       <HeroSection />
       
       {/* How It Works Section */}
-      <HowItWorksSection />
+      {/* <HowItWorksSection /> */}
+
+
+      {/* About Company Section */}
+      <AboutCompanySection />
 
       {/* Category Section */}
       <CategorySection />

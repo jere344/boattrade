@@ -9,11 +9,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 // Company information
 export const companyInfo = {
-  name: "BoatTrade",
+  name: "BoatTrade Consulting",
   description: "Le meilleur marché pour l'achat et la vente de bateaux, connectant les passionnés de navigation avec leurs embarcations parfaites.",
-  email: "info@boattrade.com",
-  phone: "(123) 456-7890",
-  address: "123 Harbor Way, Marina Bay, CA 94804",
+  email: "Boat.tradeconsulting@gmail.com ",
+  phone: "06 51 51 06 36",
+  address: "Palavas-les-Flots, 34250, France",
   foundedYear: 2020
 };
 
