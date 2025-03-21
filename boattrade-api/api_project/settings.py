@@ -33,6 +33,19 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 CORS_ORIGIN_WHITELIST = tuple(os.environ.get("CORS_ORIGIN_WHITELIST", "http://localhost:5173,http://127.0.0.1:5173").split(","))
 
+print(DEBUG)
+print(ALLOWED_HOSTS)
+print(CORS_ORIGIN_WHITELIST)
+# Security settings for HTTPS
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 # Application definition
 
