@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    Boat, BoatCategory, BoatImage, Inquiry, 
+    Boat, BoatCategory, BoatImage, BoatVideo, Inquiry, 
     SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem,
     Testimonial
 )
@@ -15,8 +15,21 @@ class BoatImageSerializer(serializers.ModelSerializer):
         model = BoatImage
         fields = ['id', 'image', 'is_main', 'caption']
 
+class BoatVideoSerializer(serializers.ModelSerializer):
+    video_file_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = BoatVideo
+        fields = ['id', 'title', 'video_url', 'video_file', 'video_file_url', 'thumbnail', 'is_main']
+    
+    def get_video_file_url(self, obj):
+        if obj.video_file:
+            return obj.video_file.url
+        return None
+
 class BoatSerializer(serializers.ModelSerializer):
     images = BoatImageSerializer(many=True, read_only=True)
+    videos = BoatVideoSerializer(many=True, read_only=True)
     category_detail = BoatCategorySerializer(source='category', read_only=True)
     amenities = serializers.SerializerMethodField()
     technical_details = serializers.SerializerMethodField()
@@ -27,7 +40,7 @@ class BoatSerializer(serializers.ModelSerializer):
             'id', 'title', 'category', 'category_detail', 'description', 
             'price', 'length', 'width', 'year_built', 'engine_power', 
             'fuel_type', 'created_at', 'updated_at', 'is_active', 'images',
-            'location', 'amenities', 'technical_details'
+            'videos', 'location', 'amenities', 'technical_details'
         ]
     
     def get_amenities(self, obj):
@@ -86,12 +99,13 @@ class BoatSerializer(serializers.ModelSerializer):
 class BoatListSerializer(serializers.ModelSerializer):
     category_detail = BoatCategorySerializer(source='category', read_only=True)
     main_image = serializers.SerializerMethodField()
+    main_video = serializers.SerializerMethodField()
     
     class Meta:
         model = Boat
         fields = [
             'id', 'title', 'category', 'category_detail', 'price', 
-            'year_built', 'main_image', 'location'
+            'year_built', 'main_image', 'main_video', 'location'
         ]
     
     def get_main_image(self, obj):
@@ -101,6 +115,14 @@ class BoatListSerializer(serializers.ModelSerializer):
         # Return the first image if no main image is set
         first_image = obj.images.first()
         return first_image.image.url if first_image else None
+    
+    def get_main_video(self, obj):
+        main_video = obj.videos.filter(is_main=True).first()
+        if main_video:
+            if main_video.video_file:
+                return main_video.video_file.url
+            return main_video.video_url
+        return None
 
 class InquirySerializer(serializers.ModelSerializer):
     class Meta:

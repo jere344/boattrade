@@ -1,6 +1,47 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.forms import ValidationError as FormValidationError
 from django.db.models import JSONField  # Import JSONField for complex data structures
+from django.contrib import messages
+import os
+import shutil
+
+def get_file_size_mb(file):
+    """Return file size in MB"""
+    if hasattr(file, 'size'):
+        return file.size / (1024 * 1024)
+    return 0
+
+def get_storage_info():
+    """Get storage information for the media directory"""
+    try:
+        # Get the directory where media is stored (MEDIA_ROOT)
+        from django.conf import settings
+        media_root = settings.MEDIA_ROOT
+        
+        # Create the directory if it doesn't exist
+        os.makedirs(media_root, exist_ok=True)
+        
+        # Get disk usage statistics
+        total, used, free = shutil.disk_usage(media_root)
+        return {
+            'total_gb': total / (1024**3),
+            'used_gb': used / (1024**3),
+            'free_gb': free / (1024**3),
+            'free_mb': free / (1024**2),
+            'percent_used': (used / total) * 100
+        }
+    except Exception as e:
+        # Return default values in case of error
+        return {
+            'total_gb': 0,
+            'used_gb': 0,
+            'free_gb': 0,
+            'free_mb': 0,
+            'percent_used': 0,
+            'error': str(e)
+        }
 
 class BoatCategory(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom")
@@ -90,6 +131,78 @@ class BoatImage(models.Model):
     class Meta:
         verbose_name = "Image de bateau"
         verbose_name_plural = "Images de bateaux"
+
+class BoatVideo(models.Model):
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, related_name='videos', verbose_name="Bateau")
+    title = models.CharField(max_length=200, blank=True, verbose_name="Titre")
+    video_url = models.URLField(verbose_name="URL Vidéo", help_text="YouTube ou Vimeo URL", blank=True, null=True)
+    video_file = models.FileField(upload_to='boat_videos/', blank=True, null=True, verbose_name="Fichier Vidéo",
+                                 help_text="Téléchargez directement un fichier vidéo (recommandé < 100 MB)")
+    thumbnail = models.ImageField(upload_to='boat_video_thumbnails/', blank=True, null=True, verbose_name="Miniature")
+    is_main = models.BooleanField(default=False, verbose_name="Vidéo principale")
+    file_size_mb = models.FloatField(blank=True, null=True, editable=False, verbose_name="Taille du fichier (MB)")
+    warning_message = models.TextField(blank=True, null=True, editable=False, 
+                                       verbose_name="Message d'avertissement")
+    
+    def __str__(self):
+        return f"Vidéo pour {self.boat.title}: {self.title}"
+    
+    def clean(self):
+        # Ensure at least one of video_url or video_file is provided
+        if not self.video_url and not self.video_file:
+            raise ValidationError("Either a video URL or a video file must be provided.")
+        
+        # Reset warning message
+        self.warning_message = None
+        
+        # Check video file size and available storage
+        if self.video_file:
+            file_size_mb = get_file_size_mb(self.video_file)
+            storage_info = get_storage_info()
+            
+            # Store the file size for reference
+            self.file_size_mb = file_size_mb
+            
+            remaining_space_after_upload = storage_info['free_mb'] - file_size_mb
+            
+            # Critical warning - block the upload if less than 1GB would remain
+            if remaining_space_after_upload < 1024:  # 1GB in MB
+                raise ValidationError(
+                    f"Ce fichier est trop volumineux pour l'espace disponible. Il ne resterait que "
+                    f"{remaining_space_after_upload:.2f} MB après téléchargement. Veuillez libérer "
+                    f"de l'espace ou utiliser une URL YouTube/Vimeo."
+                )
+            
+            # Set warning messages but don't block upload
+            warnings = []
+            
+            # Warn about large files
+            if file_size_mb > 100:  # 100 MB warning threshold
+                warnings.append(
+                    f"Le fichier vidéo est très volumineux ({file_size_mb:.2f} MB). "
+                    f"Considérez l'utilisation d'un lien YouTube ou Vimeo pour de meilleures performances."
+                )
+                                      
+            # Warn about storage space
+            if file_size_mb > storage_info['free_mb'] * 0.3:  # If file will use more than 30% of available space
+                warnings.append(
+                    f"Attention: Ce fichier utiliserait {(file_size_mb / storage_info['free_mb'] * 100):.1f}% "
+                    f"de votre espace de stockage disponible ({storage_info['free_gb']:.2f} GB)."
+                )
+            
+            # Store warnings for display in the admin
+            if warnings:
+                self.warning_message = "\n".join(warnings)
+    
+    def save(self, *args, **kwargs):
+        # Calculate and save file size when saving
+        if self.video_file and not self.file_size_mb:
+            self.file_size_mb = get_file_size_mb(self.video_file)
+        super().save(*args, **kwargs)
+        
+    class Meta:
+        verbose_name = "Vidéo de bateau"
+        verbose_name_plural = "Vidéos de bateaux"
 
 class Inquiry(models.Model):
     """For users interested in a specific boat"""

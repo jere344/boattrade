@@ -7,6 +7,16 @@ export interface BoatImage {
   caption: string;
 }
 
+export interface BoatVideo {
+  id: number;
+  title: string;
+  video_url: string | null;
+  video_file?: string | null;
+  video_file_url?: string | null;
+  thumbnail: string | null;
+  is_main: boolean;
+}
+
 // Field interface for name/value pairs
 export interface Field {
   name: string;
@@ -41,6 +51,7 @@ export interface Boat {
   updated_at: string;
   is_active: boolean;
   images: BoatImage[];
+  videos: BoatVideo[];
   location: string;
   amenities?: Amenities;
   technical_details?: TechnicalDetails;
@@ -55,5 +66,6 @@ export interface BoatSummary {
   price: number;
   year_built?: number;
   main_image?: string;
+  main_video?: string;
   location: string;
 }
