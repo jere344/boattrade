@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, Card, CardContent, CardMedia, useTheme, alpha, Button, Container, Skeleton, useMediaQuery, IconButton } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, CardMedia, useTheme, alpha, Button, Container, Skeleton, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Category } from '../../models/Category';
 import api from '../../services/api';
@@ -7,12 +7,13 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link as RouterLink } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import CircleIcon from '@mui/icons-material/Circle';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const CategorySection: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -32,30 +33,9 @@ const CategorySection: React.FC = () => {
     fetchCategories();
   }, []);
 
-  const handleNext = () => {
-    setActiveIndex((prevIndex) => 
-      prevIndex === categories.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) => 
-      prevIndex === 0 ? categories.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleDotClick = (index: number) => {
-    setActiveIndex(index);
-  };
-
-  const visibleCategories = () => {
-    if (isMobile) return categories.slice(activeIndex, activeIndex + 1);
-    if (isTablet) return categories.slice(activeIndex, activeIndex + 2);
-    return categories.slice(activeIndex, activeIndex + 3);
-  };
-
   const getItemsToShow = isMobile ? 1 : isTablet ? 2 : 3;
 
+  // Animation variants
   const sectionVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -72,6 +52,225 @@ const CategorySection: React.FC = () => {
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
   };
+
+  // Custom prev arrow component
+  const PrevArrow = (props: any) => {
+    const { onClick } = props;
+    return (
+      <Box
+        onClick={onClick}
+        sx={{
+          position: 'absolute',
+          left: { xs: '5px', md: '-50px' },
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.1),
+          color: theme.palette.primary.main,
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            transform: 'translateY(-50%) translateX(-3px)',
+          }
+        }}
+      >
+        <NavigateBeforeIcon />
+      </Box>
+    );
+  };
+
+  // Custom next arrow component
+  const NextArrow = (props: any) => {
+    const { onClick } = props;
+    return (
+      <Box
+        onClick={onClick}
+        sx={{
+          position: 'absolute',
+          right: { xs: '5px', md: '-50px' },
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.1),
+          color: theme.palette.primary.main,
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            transform: 'translateY(-50%) translateX(3px)',
+          }
+        }}
+      >
+        <NavigateNextIcon />
+      </Box>
+    );
+  };
+
+  // Slider settings
+  const settings = {
+    dots: true,
+    infinite: categories.length > getItemsToShow,
+    speed: 500,
+    slidesToShow: getItemsToShow,
+    slidesToScroll: getItemsToShow, // Change to slidesToScroll = slidesToShow to ensure proper pagination
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    customPaging: (i: number) => ( // Add index parameter
+      <Box
+        component="div"
+        sx={{
+          width: '10px',
+          height: '10px',
+          margin: '0 5px',
+          borderRadius: '50%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.3),
+          transition: 'all 0.3s ease',
+        }}
+      />
+    ),
+    dotsClass: 'slick-dots custom-dots',
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2, // Update to match slidesToShow for proper pagination
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      }
+    ],
+    adaptiveHeight: true,
+  };
+
+  // Category card component
+  const CategoryCard = ({ category }: { category: Category }) => (
+    <Box sx={{ p: 1.5 }}>
+      <motion.div
+        whileHover={{ 
+          y: -8, 
+          transition: { duration: 0.3 },
+          boxShadow: `0 20px 40px ${alpha(theme.palette.primary.main, 0.2)}`
+        }}
+      >
+        <Card
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            borderRadius: 3,
+            bgcolor: 'background.paper',
+            boxShadow: `0 15px 35px ${alpha(theme.palette.primary.main, 0.15)}`,
+            position: 'relative',
+            transition: 'all 0.3s ease',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              height: '5px',
+              background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              opacity: 0,
+              transition: 'opacity 0.3s ease',
+            },
+            '&:hover::after': {
+              opacity: 1,
+            }
+          }}
+        >
+          <Box sx={{ position: 'relative', overflow: 'hidden', pt: '70%' }}>
+            <CardMedia
+              component="img"
+              image={category.image}
+              alt={category.name}
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.6s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                }
+              }}
+            />
+            <Box 
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%)`,
+              }}
+            />
+            <Typography
+              variant="h4"
+              sx={{
+                position: 'absolute',
+                bottom: 20,
+                left: 20,
+                color: 'white',
+                fontWeight: 700,
+                textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+              {category.name}
+            </Typography>
+          </Box>
+          <CardContent sx={{ 
+            flexGrow: 1, 
+            p: 3,
+            background: 'white'
+          }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              {category.description}
+            </Typography>
+            <Button 
+              component={RouterLink}
+              to={`/boats?category=${category.id}`}
+              variant="contained"
+              color="primary"
+              endIcon={<ArrowForwardIcon />}
+              sx={{ 
+                borderRadius: '30px',
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 3,
+                '&:hover': {
+                  transform: 'translateX(5px)',
+                }
+              }}
+            >
+              Explorer
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </Box>
+  );
 
   return (
     <Box 
@@ -98,6 +297,7 @@ const CategorySection: React.FC = () => {
       />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        {/* Section header content */}
         <Box 
           component={motion.div}
           initial={{ opacity: 0, y: 30 }}
@@ -162,7 +362,7 @@ const CategorySection: React.FC = () => {
             animate="visible"
           >
             <Grid container spacing={3} justifyContent="center">
-              {[...Array(3)].map((_, index) => (
+              {[...Array(getItemsToShow)].map((_, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div variants={itemVariants}>
                     <Card sx={{ 
@@ -186,183 +386,38 @@ const CategorySection: React.FC = () => {
             </Grid>
           </Box>
         ) : (
-          <Box position="relative">
-            <motion.div
-              variants={sectionVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Grid container spacing={3} justifyContent="center">
-                {visibleCategories().map((category, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={category.id}>
-                    <motion.div 
-                      variants={itemVariants}
-                      whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                    >
-                      <Card
-                        sx={{
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          overflow: 'hidden',
-                          borderRadius: 3,
-                          bgcolor: 'background.paper',
-                          boxShadow: `0 15px 35px ${alpha(theme.palette.primary.main, 0.15)}`,
-                          position: 'relative',
-                          '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '5px',
-                            background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                            opacity: 0,
-                            transition: 'opacity 0.3s ease',
-                          },
-                          '&:hover::after': {
-                            opacity: 1,
-                          }
-                        }}
-                      >
-                        <Box sx={{ position: 'relative', overflow: 'hidden', pt: '70%' }}>
-                          <CardMedia
-                            component="img"
-                            image={category.image}
-                            alt={category.name}
-                            sx={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              transition: 'transform 0.6s ease',
-                              '&:hover': {
-                                transform: 'scale(1.05)',
-                              }
-                            }}
-                          />
-                          <Box 
-                            sx={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              width: '100%',
-                              height: '100%',
-                              background: `linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%)`,
-                            }}
-                          />
-                          <Typography
-                            variant="h4"
-                            sx={{
-                              position: 'absolute',
-                              bottom: 20,
-                              left: 20,
-                              color: 'white',
-                              fontWeight: 700,
-                              textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                            }}
-                          >
-                            {category.name}
-                          </Typography>
-                        </Box>
-                        <CardContent sx={{ 
-                          flexGrow: 1, 
-                          p: 3,
-                          background: 'white'
-                        }}>
-                          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-                            {category.description}
-                          </Typography>
-                          <Button 
-                            component={RouterLink}
-                            to={`/boats?category=${category.id}`}
-                            variant="contained"
-                            color="primary"
-                            endIcon={<ArrowForwardIcon />}
-                            sx={{ 
-                              borderRadius: '30px',
-                              textTransform: 'none',
-                              fontWeight: 600,
-                              px: 3,
-                              '&:hover': {
-                                transform: 'translateX(5px)',
-                              }
-                            }}
-                          >
-                            Explorer
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </Grid>
-                ))}
-              </Grid>
-            </motion.div>
-            
-            {/* Navigation controls */}
-            {categories.length > getItemsToShow && (
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center',
-                  mt: 5,
-                  gap: 1
-                }}
-              >
-                <IconButton 
-                  onClick={handlePrev}
-                  sx={{ 
-                    bgcolor: alpha(theme.palette.primary.main, 0.1),
-                    '&:hover': {
-                      bgcolor: alpha(theme.palette.primary.main, 0.2),
-                    }
-                  }}
-                >
-                  <NavigateBeforeIcon />
-                </IconButton>
-                
-                <Box sx={{ display: 'flex', mx: 2 }}>
-                  {categories.map((_, index) => (
-                    <Box 
-                      key={index}
-                      component={motion.div}
-                      whileHover={{ scale: 1.2 }}
-                      onClick={() => handleDotClick(index)}
-                      sx={{ 
-                        cursor: 'pointer',
-                        mx: 0.5,
-                        display: 'flex',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <CircleIcon 
-                        sx={{ 
-                          fontSize: '0.8rem',
-                          color: index === activeIndex ? theme.palette.primary.main : alpha(theme.palette.primary.main, 0.3),
-                          transition: 'color 0.3s ease'
-                        }}
-                      />
-                    </Box>
-                  ))}
-                </Box>
-                
-                <IconButton 
-                  onClick={handleNext}
-                  sx={{ 
-                    bgcolor: alpha(theme.palette.primary.main, 0.1),
-                    '&:hover': {
-                      bgcolor: alpha(theme.palette.primary.main, 0.2),
-                    }
-                  }}
-                >
-                  <NavigateNextIcon />
-                </IconButton>
-              </Box>
-            )}
+          <Box 
+            sx={{ 
+              px: { xs: 1, md: 4 },
+              '.slick-track': {
+                display: 'flex',
+                '.slick-slide': {
+                  height: 'auto',
+                  '& > div': {
+                    height: '100%',
+                  }
+                }
+              },
+              '.slick-dots': {
+                bottom: '-40px',
+              },
+              '.custom-dots li': {
+                margin: '0 5px',
+              },
+              '.slick-dots li button:before': {
+                display: 'none', // Hide default dots
+              },
+              '.slick-dots li.slick-active div': {
+                backgroundColor: theme.palette.primary.main, // Style active dot
+                transform: 'scale(1.2)',
+              }
+            }}
+          >
+            <Slider {...settings}>
+              {categories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))}
+            </Slider>
           </Box>
         )}
         
@@ -375,7 +430,7 @@ const CategorySection: React.FC = () => {
           sx={{ 
             display: 'flex',
             justifyContent: 'center',
-            mt: 6
+            mt: { xs: 8, md: 10 }
           }}
         >
           <Button 
