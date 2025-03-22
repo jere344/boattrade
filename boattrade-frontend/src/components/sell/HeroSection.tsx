@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Box, Typography, Container, Button } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 import { motion } from "framer-motion";
 import waterVideo from "@assets/vecteezy-water-surface.mp4";
 import { useTransform, useScroll } from "framer-motion";
 
 const MotionBox = motion.create(Box);
-const MotionButton = motion.create(Button);
 
 const HeroSection = () => {
     const [videoLoaded, setVideoLoaded] = useState(false);
@@ -46,7 +45,7 @@ const HeroSection = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        backgroundColor: "rgba(43, 48, 69, 0.5)",
                         backdropFilter: "blur(4px)",
                         zIndex: 2,
                     }}

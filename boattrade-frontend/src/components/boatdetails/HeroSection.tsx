@@ -55,7 +55,7 @@ const HeroSection = ({ boat, selectedImage }: HeroSectionProps) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgba(0, 0, 0, 0.6)", // Darkening
+                        backgroundColor: "rgba(43, 48, 69, 0.5)",
                         backdropFilter: "blur(4px)", // Blurring
                         zIndex: 2,
                     }}
