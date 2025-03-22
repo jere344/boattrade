@@ -279,7 +279,7 @@ const TestimonialsSection: React.FC = () => {
             <Typography color="error" variant="h6">{error}</Typography>
           </Box>
         ) : (
-          <Grid container spacing={4}>
+          <Grid container spacing={4} justifyContent="center">
             {testimonials.map((testimonial, index) => (
               <Grid 
                 item 
