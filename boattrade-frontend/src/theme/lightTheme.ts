@@ -33,21 +33,33 @@ export const getLightTheme = () => createTheme({
         },
     },
     typography: {
-        fontFamily: "'Montserrat', 'Roboto', sans-serif",
-        h4: {
-            fontWeight: 600,
-        },
-        h3: {
+        fontFamily: "'Afacad Flux', 'Montserrat', 'Roboto', sans-serif", // Using Afacad Flux as the main font
+        h1: {
+            fontFamily: "'Advent Pro', sans-serif",
             fontWeight: 700,
-            fontSize: "2.5rem",
         },
         h2: {
+            fontFamily: "'Advent Pro', sans-serif",
             fontWeight: 700,
             fontSize: "3.5rem",
         },
+        h3: {
+            fontFamily: "'Advent Pro', sans-serif",
+            fontWeight: 700,
+            fontSize: "2.5rem",
+        },
+        h4: {
+            fontFamily: "'Advent Pro', sans-serif",
+            fontWeight: 600,
+        },
         h5: {
+            fontFamily: "'Advent Pro', sans-serif",
             fontWeight: 600,
             letterSpacing: "0.02em",
+        },
+        h6: {
+            fontFamily: "'Advent Pro', sans-serif",
+            fontWeight: 600,
         },
         subtitle1: {
             lineHeight: 1.8,
