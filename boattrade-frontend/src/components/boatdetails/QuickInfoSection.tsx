@@ -56,7 +56,7 @@ const QuickInfoSection = ({ boat, onInquiryClick }: QuickInfoSectionProps) => {
                         }}
                     >
                         {[
-                            { id: "gallery", label: "Gallerie" },
+                            { id: "gallery", label: "Galerie" },
                             { id: "overview", label: "Aperçu" },
                             { id: "specs", label: "Spécifications" },
                             { id: "contact", label: "Contact" },

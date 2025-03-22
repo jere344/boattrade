@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Container, Typography, Box, CircularProgress, Alert } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import { Box } from "@mui/material";
 import { BoatSummary } from "@models/Boat";
-import BoatCard from "./BoatCard";
 import api from "@services/api";
 import { Category } from "@models/Category";
-import BoatFilters from "./BoatFilters";
+
+// Import section components
+import BoatListingHeroSection from "./BoatListingHeroSection";
+import BoatFiltersSection from "./BoatFiltersSection";
+import BoatResultsSection from "./BoatResultsSection";
+import LoadMoreSection from "./LoadMoreSection";
+import FooterSpacerSection from "@components/home/FooterSpacerSection";
 
 // Format price for display
 const formatPrice = (price: number) => {
@@ -105,12 +109,12 @@ const BoatListingPage: React.FC = () => {
     const hasMoreToShow = visibleCount < boats.length;
 
     return (
-        <Container maxWidth="lg" sx={{ py: 3 }}>
-            <Typography variant="h4" component="h1" gutterBottom>
-                Boat Listings
-            </Typography>
-
-            <BoatFilters
+        <Box sx={{ background: "linear-gradient(180deg, #f7f9fc 0%, white 100%)" }}>
+            {/* Header Section */}
+            <BoatListingHeroSection />
+            
+            {/* Filters Section */}
+            <BoatFiltersSection 
                 categories={categories}
                 filters={filters}
                 onFilterChange={handleFilterChange}
@@ -119,53 +123,27 @@ const BoatListingPage: React.FC = () => {
                 formatPrice={formatPrice}
                 maxPriceLimit={1000000}
             />
+            <br />
+            <br />
+            
+            {/* Results Section */}
+            <BoatResultsSection 
+                boats={boats}
+                visibleBoats={visibleBoats}
+                loading={loading}
+                error={error}
+                formatPrice={formatPrice}
+            />
+            
+            {/* Load More Section */}
+            <LoadMoreSection 
+                loadMoreRef={loadMoreRef}
+                hasMoreToShow={hasMoreToShow}
+                boatsCount={boats.length}
+            />
 
-            {loading && (
-                <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-                    <CircularProgress />
-                </Box>
-            )}
-
-            {error && (
-                <Alert severity="error" sx={{ my: 2 }}>
-                    {error}
-                </Alert>
-            )}
-
-            {!loading && boats.length === 0 && (
-                <Alert severity="info" sx={{ my: 2 }}>
-                    No boats found. Try adjusting your filters.
-                </Alert>
-            )}
-
-            {boats.length > 0 && (
-                <>
-                    <Grid container spacing={3}>
-                        {visibleBoats.map((boat: BoatSummary) => (
-                            <Grid key={boat.id} size={{ xs: 12, sm: 12, md: 12 }}>
-                                <BoatCard boat={boat} formatPrice={formatPrice} variant="full" />
-                            </Grid>
-                        ))}
-                    </Grid>
-                    
-                    {/* Intersection observer target for lazy loading */}
-                    {hasMoreToShow && (
-                        <div ref={loadMoreRef} style={{ height: "20px", margin: "20px 0" }}>
-                            <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-                                <CircularProgress size={30} />
-                            </Box>
-                        </div>
-                    )}
-                    
-                    {/* Message when all boats are visible */}
-                    {!hasMoreToShow && boats.length > 0 && (
-                        <Box sx={{ textAlign: "center", color: "text.secondary", my: 2 }}>
-                            <Typography variant="body2">All boats loaded</Typography>
-                        </Box>
-                    )}
-                </>
-            )}
-        </Container>
+            <FooterSpacerSection />
+        </Box>
     );
 };
 

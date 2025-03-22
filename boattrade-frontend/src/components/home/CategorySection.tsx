@@ -137,7 +137,7 @@ const CategorySection: React.FC = () => {
               color: 'transparent',
             }}
           >
-            Explorer nos Catégories
+            NOS BATEAUX
           </Typography>
           
           <Typography 
@@ -150,7 +150,7 @@ const CategorySection: React.FC = () => {
               lineHeight: 1.8
             }}
           >
-            Découvrez notre collection exceptionnelle de bateaux adaptés à tous les besoins, des aventures familiales aux sorties sportives en passant par les croisières de luxe.
+            Découvrez notre selection de bateaux.
           </Typography>
         </Box>
 
@@ -278,7 +278,7 @@ const CategorySection: React.FC = () => {
                           </Typography>
                           <Button 
                             component={RouterLink}
-                            to={`/categories/${category.id}`}
+                            to={`/boats?category=${category.id}`}
                             variant="contained"
                             color="primary"
                             endIcon={<ArrowForwardIcon />}

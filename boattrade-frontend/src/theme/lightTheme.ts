@@ -33,7 +33,7 @@ export const getLightTheme = () => createTheme({
         },
     },
     typography: {
-        fontFamily: "'Poppins', 'Roboto', sans-serif",
+        fontFamily: "'Montserrat', 'Roboto', sans-serif",
         h4: {
             fontWeight: 600,
         },

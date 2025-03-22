@@ -4,15 +4,13 @@ import {
   Box,
   Typography,
   Button,
-  useTheme,
-  Paper,
   Chip,
   alpha
 } from '@mui/material';
-import { motion, useMotionValue, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import StraightenIcon from '@mui/icons-material/Straighten';
+import StarIcon from '@mui/icons-material/Star';
 import { BoatSummary } from '../../models/Boat';
 
 // Motion components
@@ -25,36 +23,6 @@ interface BoatCardProps {
   formatPrice: (price: number) => string;
   variant?: 'square' | 'full';
 }
-
-// Shimmer SVG component
-const ShimmerEffect = () => (
-  <svg
-    style={{ 
-      position: 'absolute', 
-      top: 0, 
-      left: 0, 
-      width: '100%', 
-      height: '100%',
-      pointerEvents: 'none',
-      zIndex: 3,
-      opacity: 0.4
-    }}
-  >
-    <defs>
-      <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="20%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.6)" />
-        <stop offset="80%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-      <mask id="shimmerMask">
-        <rect x="0" y="0" width="100%" height="100%" fill="url(#shimmer)" />
-      </mask>
-    </defs>
-    <rect x="0" y="0" width="100%" height="100%" fill="white" mask="url(#shimmerMask)" />
-  </svg>
-);
 
 // Wave SVG for decoration
 const WaveDecoration = ({ color = "#5d8aa8" }) => (
@@ -84,7 +52,6 @@ const BoatCard: React.FC<BoatCardProps> = ({
   variant = 'square' 
 }) => {
   const navigate = useNavigate();
-  const theme = useTheme();
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.3 });
   
@@ -93,7 +60,7 @@ const BoatCard: React.FC<BoatCardProps> = ({
     ? `${import.meta.env.VITE_API_BASE_URL}${boat.main_image}`
     : 'https://placehold.co/600x400/e0e7ee/7d95ab?text=No+Image';
 
-  const isPremium = boat.price > 150000;
+  const isPremium = boat.price > 50000;
   
   return (
     <MotionBox
@@ -131,7 +98,7 @@ const BoatCard: React.FC<BoatCardProps> = ({
           flexDirection: variant === 'full' ? 'row' : 'column',
         }}
       >
-        {/* Premium badge without 3D */}
+        {/* Premium badge with icon */}
         {isPremium && (
           <MotionBox
             initial={{ y: -20, opacity: 0 }}
@@ -143,23 +110,21 @@ const BoatCard: React.FC<BoatCardProps> = ({
               right: 16,
               zIndex: 10,
               background: 'linear-gradient(135deg, #D4AF37 0%, #F5E6AB 50%, #D4AF37 100%)',
-              borderRadius: '20px',
-              padding: '4px 12px',
+              borderRadius: '50%',
+              padding: '8px',
               boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
-              border: '1px solid rgba(255,255,255,0.5)'
+              border: '1px solid rgba(255,255,255,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
-            <Typography 
-              variant="caption" 
+            <StarIcon 
               sx={{ 
-                fontWeight: 700, 
                 color: '#5B4C00',
-                textTransform: 'uppercase',
-                letterSpacing: 1
+                fontSize: '1.2rem'
               }}
-            >
-              Elite
-            </Typography>
+            />
           </MotionBox>
         )}
 

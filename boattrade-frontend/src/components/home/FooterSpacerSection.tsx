@@ -25,7 +25,7 @@ const FooterSpacerSection: React.FC = () => {
               drop-shadow(1px -1px 0 black)
               drop-shadow(-1px 1px 0 black)
             `,
-            opacity: 0.5
+            opacity: 1
           }}
         />
       </Box>

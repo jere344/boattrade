@@ -8,7 +8,7 @@ from .models import (
 class BoatCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BoatCategory
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'image']
 
 class BoatImageSerializer(serializers.ModelSerializer):
     class Meta:

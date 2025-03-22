@@ -13,7 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Improved text readability for light mode */
 @media (prefers-color-scheme: light) {
   :root {
     color: #1a2438; /* Darker text for better contrast */

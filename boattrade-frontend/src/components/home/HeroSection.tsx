@@ -339,7 +339,7 @@ const HeroSection: React.FC = () => {
             </Box>
 
             {/* Logo Image - Fixed visibility issues */}
-            <MotionBox
+            {/* <MotionBox
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}  // Changed from 0.9 to 1 for full visibility
                 transition={{ duration: 1, delay: 0.5 }}
@@ -356,7 +356,6 @@ const HeroSection: React.FC = () => {
                     borderRadius: "6px",
                 }}
             >
-                {/* Added error handling and logging */}
                 <img 
                     src={logoImage} 
                     alt="Boat Trade Logo" 
@@ -382,7 +381,7 @@ const HeroSection: React.FC = () => {
                     }}
                     onLoad={() => console.log("Logo image loaded successfully")}
                 />
-            </MotionBox>
+            </MotionBox> */}
 
             {/* Interactive Compass Element - THE MEMORABLE ELEMENT */}
             <MotionBox
@@ -527,7 +526,7 @@ const HeroSection: React.FC = () => {
                                 }}
                                 variants={itemVariants}
                             >
-                                BOAT TRADE CONSULTING • EXCELLENCE EN COMMERCE MARITIME
+                                
                             </MotionTypography>
 
                             <MotionTypography
@@ -543,7 +542,7 @@ const HeroSection: React.FC = () => {
                                 }}
                                 variants={itemVariants}
                             >
-                                Naviguez Vos Rêves Maritimes
+                                BOAT TRADE CONSULTING
                             </MotionTypography>
 
                             <MotionTypography
@@ -560,8 +559,24 @@ const HeroSection: React.FC = () => {
                                 }}
                                 variants={itemVariants}
                             >
-                                Depuis plus d'une décennie, Boat Trade a connecté des marins passionnés avec des navires exceptionnels. Des
-                                yachts de luxe aux voiliers classiques, nous sommes votre boussole de confiance sur le marché maritime.
+                                Votre allié au service de votre transaction nautique
+                            </MotionTypography>
+
+                            <MotionTypography
+                                variant="h5"
+                                style={{ opacity: subtitleOpacity, y: subtitleY }}
+                                color="white"
+                                sx={{
+                                    mb: 5,
+                                    maxWidth: "800px",
+                                    mx: "auto",
+                                    opacity: 0.9,
+                                    textShadow: "0 2px 10px rgba(0,0,0,0.3)",
+                                    fontSize: { xs: "1.1rem", md: "1.3rem" },
+                                }}
+                                variants={itemVariants}
+                            >
+                                Situé à Palavas-les-flots
                             </MotionTypography>
 
                             <MotionBox
@@ -575,10 +590,29 @@ const HeroSection: React.FC = () => {
                                 }}
                                 variants={itemVariants}
                             >
-                                <Link to="/boats" style={{ textDecoration: "none" }}>
+                                {/* <Link to="/boats" style={{ textDecoration: "none" }}>
                                     <MotionButton
                                         variant="contained"
                                         color="primary"
+                                        size="large"
+                                        whileHover={buttonHoverEffect}
+                                        whileTap={{ scale: 0.98 }}
+                                        startIcon={<DirectionsBoatIcon />}
+                                        sx={{
+                                            px: 4,
+                                            py: 1.8,
+                                            minWidth: { xs: "80%", sm: "200px" },
+                                            alignSelf: { xs: "center", sm: "auto" },
+                                        }}
+                                    >
+                                        Explorez Notre Flotte
+                                    </MotionButton>
+                                </Link> */}
+
+                                <Link to="/sell" style={{ textDecoration: "none" }}>
+                                    <MotionButton
+                                        variant="contained"
+                                        color="secondary"
                                         size="large"
                                         whileHover={buttonHoverEffect}
                                         whileTap={{ scale: 0.98 }}

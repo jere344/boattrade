@@ -120,7 +120,7 @@ const Footer = () => {
                         background: "white",
                         borderRadius: "0 0 100px 100px",
                         zIndex: 4,
-                        marginTop: "-1px",
+                        marginTop: "-2px",
                     }}
                 />
             <MotionBox

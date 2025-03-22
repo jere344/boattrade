@@ -33,9 +33,6 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 CORS_ORIGIN_WHITELIST = tuple(os.environ.get("CORS_ORIGIN_WHITELIST", "http://localhost:5173,http://127.0.0.1:5173").split(","))
 
-print(DEBUG)
-print(ALLOWED_HOSTS)
-print(CORS_ORIGIN_WHITELIST)
 # Security settings for HTTPS
 if not DEBUG:
     SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
@@ -98,23 +95,35 @@ WSGI_APPLICATION = "api_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DB_FILE_NAME = os.environ.get('DB_FILE_NAME', 'db.sqlite3')
+DB_FILE_DIR = os.environ.get('DB_FILE_DIR', '')
+
+# Construct the database path
+if DB_FILE_DIR:
+    DB_FILE_PATH = Path(DB_FILE_DIR) / DB_FILE_NAME
+else:
+    DB_FILE_PATH = BASE_DIR / DB_FILE_NAME
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DB_FILE_PATH,
         "ATOMIC_REQUESTS": True,
     }
 }
 
 # Ensure SQLite database directory has proper permissions
 import stat
-DB_DIR = BASE_DIR
+DB_DIR = DB_FILE_PATH.parent
 os.makedirs(DB_DIR, exist_ok=True)
-os.chmod(DB_DIR, stat.S_IRWXU)  # Owner has read/write/execute permissions
+if os.path.exists(DB_FILE_PATH):
+    os.chmod(DB_FILE_PATH, stat.S_IRUSR | stat.S_IWUSR)  # 600 - Owner read/write only for DB file
 
-# Backup directory
+# Backup directory - full path configuration
 SQLITE_BACKUP_DIR = os.path.join(BASE_DIR, os.environ.get('SQLITE_BACKUP_DIR', 'backups'))
 os.makedirs(SQLITE_BACKUP_DIR, exist_ok=True)
+os.chmod(SQLITE_BACKUP_DIR, stat.S_IRWXU)  # 700 permissions for backup dir
+BACKUP_RETENTION_DAYS = int(os.environ.get('BACKUP_RETENTION_DAYS', 30))
 
 
 # Password validation

@@ -18,7 +18,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Boat } from "../../models/Boat";
 import api from "../../services/api";
 
-// Luxury colors and animations config
 const GREY_GRADIENT = "linear-gradient(135deg, #1a365d 0%, #2a4365 50%, #2c5282 100%)";
 const GOLD_ACCENT = "rgba(212, 175, 55, 0.85)";
 

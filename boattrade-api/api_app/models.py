@@ -5,6 +5,7 @@ from django.db.models import JSONField  # Import JSONField for complex data stru
 class BoatCategory(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom")
     description = models.TextField(blank=True, verbose_name="Description")
+    image = models.ImageField(upload_to='categories/', blank=True, null=True, verbose_name="Image")
     
     def __str__(self):
         return self.name

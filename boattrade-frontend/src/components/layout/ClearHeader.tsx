@@ -92,13 +92,17 @@ const Header = () => {
                     right: 16,
                     zIndex: 1300,
                     color: theme.palette.primary.main,
-                    bgcolor: open ? "transparent" : scrolled ? theme.palette.background.paper : theme.palette.text.primary,
+                    bgcolor: open ? "transparent" : scrolled ? theme.palette.background.paper : "rgba(255,255,255,0.9)",
                     backdropFilter: "blur(5px)",
                     boxShadow: open ? "none" : "0 2px 10px rgba(0,0,0,0.1)",
                     "&:hover": {
-                        bgcolor: open ? "transparent" : scrolled ? theme.palette.background.paper : theme.palette.text.primary,
+                        bgcolor: open ? "transparent" : scrolled ? theme.palette.background.paper : "rgba(255,255,255,0.9)",
                     },
                     transition: "background-color 0.3s ease",
+                    fontSize: "1.2rem", // Increased icon size
+                    '& .MuiSvgIcon-root': {
+                        fontSize: '1.5rem', // Larger icons
+                    }
                 }}
             >
                 {open ? <CloseIcon /> : <MenuIcon />}
@@ -117,18 +121,21 @@ const Header = () => {
                     right: 16,
                     zIndex: 1300,
                     color: theme.palette.primary.main,
-                    bgcolor: scrolled ? theme.palette.background.paper : theme.palette.text.primary,
+                    bgcolor: scrolled ? theme.palette.background.paper : "rgba(255,255,255,0.9)",
                     backdropFilter: "blur(5px)",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
                     "&:hover": {
-                        bgcolor: scrolled ? theme.palette.background.paper : theme.palette.text.primary,
+                        bgcolor: scrolled ? theme.palette.background.paper : "rgba(255,255,255,0.9)",
                     },
                     transition: "background-color 0.3s ease",
+                    '& .MuiSvgIcon-root': {
+                        fontSize: '1.5rem', // Larger icons
+                    }
                 }}
             >
                 <Box sx={{ 
-                    width: "24px", 
-                    height: "24px", 
+                    width: "28px", // Increased from 24px
+                    height: "28px", // Increased from 24px
                     display: "flex", 
                     alignItems: "center", 
                     justifyContent: "center" 
@@ -160,7 +167,7 @@ const Header = () => {
                             bottom: 0,
                             left: 0,
                             zIndex: 1200,
-                            background: "linear-gradient(135deg, #1E3A5F 0%, #0E1C2F 100%)",
+                            background: "linear-gradient(135deg, #7f8c9f 0%,rgb(163, 172, 184) 90%)",
                             display: "flex",
                             flexDirection: "column",
                             p: 4,
@@ -177,8 +184,8 @@ const Header = () => {
                                 right: 0,
                                 width: "100%",
                                 height: "100%",
-                                opacity: 0.05,
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
+                                opacity: 0.1,
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23FFFFFF' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
                                 backgroundSize: "100px 100px",
                                 zIndex: 0,
                             }}
@@ -195,7 +202,7 @@ const Header = () => {
                             }}
                         >
                             <Box sx={{ 
-                                width: { xs: "40px", sm: "60px" }, 
+                                width: { xs: "50px", sm: "70px" }, // Increased from 40px/60px
                                 height: "auto", 
                                 mr: 2,
                                 display: "flex"
@@ -216,10 +223,10 @@ const Header = () => {
                                 style={{ textDecoration: 'none' }}
                             >
                                 <Typography
-                                    variant="h4"
+                                    variant="h3" // Increased from h4
                                     sx={{
                                         fontWeight: 700,
-                                        background: "linear-gradient(90deg, #B0E0E6, #4682B4)",
+                                        background: "linear-gradient(90deg, #283746, #415569)",
                                         backgroundClip: "text",
                                         WebkitBackgroundClip: "text",
                                         WebkitTextFillColor: "transparent",
@@ -259,8 +266,10 @@ const Header = () => {
                                 <Typography
                                     variant="subtitle1"
                                     sx={{
-                                        color: "rgba(255,255,255,0.7)",
+                                        color: "#1a2533",
                                         lineHeight: 1.6,
+                                        fontWeight: 500,
+                                        fontSize: "1.2rem", 
                                     }}
                                 >
                                     {companyInfo.description}
@@ -276,21 +285,24 @@ const Header = () => {
                                     onClick={toggleDrawer}
                                     startIcon={<DirectionsBoatIcon />}
                                     sx={{
-                                        background: "linear-gradient(90deg, #1E3A5F, #4682B4)",
+                                        background: "linear-gradient(90deg, #283746, #415569)",
                                         color: "white",
                                         fontWeight: 600,
-                                        py: 1.2,
-                                        px: 4,
+                                        py: 1.5, // Increased from 1.2
+                                        px: 4.5, // Increased from 4
                                         borderRadius: "30px",
                                         textTransform: "none",
-                                        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
-                                        fontSize: "1rem",
-                                        minWidth: "240px",
+                                        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
+                                        fontSize: "1.15rem", // Increased from 1rem
+                                        minWidth: "260px", // Increased from 240px
                                         "&:hover": {
-                                            background: "linear-gradient(90deg, #2F4B70, #5793C5)",
+                                            background: "linear-gradient(90deg, #33465a, #4c6379)",
                                             transform: "translateY(-2px)",
                                             transition: "all 0.3s ease",
                                         },
+                                        '& .MuiSvgIcon-root': {
+                                            fontSize: '1.3rem', // Larger icons
+                                        }
                                     }}
                                 >
                                     Accueil
@@ -306,21 +318,24 @@ const Header = () => {
                                     onClick={toggleDrawer}
                                     startIcon={<SailingIcon />}
                                     sx={{
-                                        background: "linear-gradient(90deg, #4682B4, #87CEEB)",
+                                        background: "linear-gradient(90deg, #415569, #596c7d)",
                                         color: "white",
                                         fontWeight: 600,
-                                        py: 1.2,
-                                        px: 4,
+                                        py: 1.5, // Increased from 1.2
+                                        px: 4.5, // Increased from 4
                                         borderRadius: "30px",
                                         textTransform: "none",
-                                        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
-                                        fontSize: "1rem",
-                                        minWidth: "240px",
+                                        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
+                                        fontSize: "1.15rem", // Increased from 1rem
+                                        minWidth: "260px", // Increased from 240px
                                         "&:hover": {
-                                            background: "linear-gradient(90deg, #5793C5, #98DFFC)",
+                                            background: "linear-gradient(90deg, #4c6379, #677a8d)",
                                             transform: "translateY(-2px)",
                                             transition: "all 0.3s ease",
                                         },
+                                        '& .MuiSvgIcon-root': {
+                                            fontSize: '1.3rem', // Larger icons
+                                        }
                                     }}
                                 >
                                     Les bateaux de nos partenaires
@@ -336,24 +351,27 @@ const Header = () => {
                                     onClick={toggleDrawer}
                                     endIcon={<HandshakeIcon />}
                                     sx={{
-                                        color: "#B0E0E6",
+                                        color: "#283746",
                                         fontWeight: 600,
-                                        py: 1.2,
-                                        px: 4,
+                                        py: 1.5, // Increased from 1.2
+                                        px: 4.5, // Increased from 4
                                         borderRadius: "30px",
                                         textTransform: "none",
-                                        borderColor: "#B0E0E6",
+                                        borderColor: "#283746",
                                         borderWidth: "2px",
-                                        minWidth: "240px",
-                                        fontSize: "1rem",
+                                        minWidth: "260px", // Increased from 240px
+                                        fontSize: "1.15rem", // Increased from 1rem
                                         backdropFilter: "blur(4px)",
-                                        background: "rgba(255, 255, 255, 0.07)",
+                                        background: "rgba(255, 255, 255, 0.15)",
                                         "&:hover": {
-                                            borderColor: "#87CEEB",
-                                            background: "rgba(255, 255, 255, 0.15)",
+                                            borderColor: "#415569",
+                                            background: "rgba(255, 255, 255, 0.25)",
                                             transform: "translateY(-2px)",
                                             transition: "all 0.3s ease",
                                         },
+                                        '& .MuiSvgIcon-root': {
+                                            fontSize: '1.3rem', // Larger icons
+                                        }
                                     }}
                                 >
                                     Nos services
@@ -368,7 +386,7 @@ const Header = () => {
                             sx={{
                                 mt: "auto",
                                 py: 3,
-                                borderTop: "1px solid rgba(255,255,255,0.1)",
+                                borderTop: "1px solid rgba(40, 55, 70, 0.3)",
                                 width: "100%",
                             }}
                         >
@@ -387,8 +405,8 @@ const Header = () => {
                                                 mb: { xs: 2, sm: 0 },
                                             }}
                                         >
-                                            {React.cloneElement(contact.icon, { sx: { color: "#B0E0E6", mr: 1 } })}
-                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                                            {React.cloneElement(contact.icon, { sx: { color: "#283746", mr: 1, fontSize: '1.3rem' } })}
+                                            <Typography variant="body2" sx={{ color: "#283746", fontWeight: 500, fontSize: '1rem' }}>
                                                 {contact.text}
                                             </Typography>
                                         </Box>
@@ -402,7 +420,12 @@ const Header = () => {
                                             href={social.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            sx={{ color: "#B0E0E6" }}
+                                            sx={{ 
+                                                color: "#283746",
+                                                '& .MuiSvgIcon-root': {
+                                                    fontSize: '1.5rem', // Larger social media icons
+                                                }
+                                            }}
                                         >
                                             {social.icon}
                                         </IconButton>

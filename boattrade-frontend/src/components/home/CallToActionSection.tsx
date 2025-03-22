@@ -99,7 +99,7 @@ const CallToActionSection: React.FC = () => {
                     color: theme.palette.secondary.light,
                   }}
                 >
-                  Que vous cherchiez votre bateau de rêve ou que vous soyez prêt à libérer votre bateau pour sa prochaine aventure, nous offrons une expérience aussi luxueuse que vos aspirations nautiques.
+                  Que vous cherchiez votre bateau de rêve ou que vous soyez prêt à libérer votre bateau pour sa prochaine aventure, nous offrons une expérience aussi unique que vos aspirations nautiques.
                 </Typography>
               </motion.div>
 
@@ -186,7 +186,7 @@ const CallToActionSection: React.FC = () => {
                 <Box
                   component="img"
                   src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                  alt="Luxury yacht on crystal blue water"
+                  alt="Boat"
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -207,7 +207,7 @@ const CallToActionSection: React.FC = () => {
                   }}
                 >
                   <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600 }}>
-                    Des bateaux de luxe vous attendent pour être découverts
+                    Le bateau de vos rêve vous attend pour être découvert
                   </Typography>
                 </Box>
               </Box>
