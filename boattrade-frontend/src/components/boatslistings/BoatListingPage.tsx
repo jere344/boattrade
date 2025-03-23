@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Box } from "@mui/material";
 import { BoatSummary } from "@models/Boat";
 import api from "@services/api";
@@ -6,7 +6,7 @@ import { Category } from "@models/Category";
 
 // Import section components
 import BoatListingHeroSection from "./BoatListingHeroSection";
-import BoatFiltersSection from "./BoatFiltersSection";
+import BoatFilters from "./BoatFilters";
 import BoatResultsSection from "./BoatResultsSection";
 import LoadMoreSection from "./LoadMoreSection";
 import FooterSpacerSection from "@components/home/FooterSpacerSection";
@@ -21,57 +21,175 @@ const formatPrice = (price: number) => {
 };
 
 const BoatListingPage: React.FC = () => {
-    const [boats, setBoats] = useState<BoatSummary[]>([]);
+    const [allBoats, setAllBoats] = useState<BoatSummary[]>([]);
+    const [filteredBoats, setFilteredBoats] = useState<BoatSummary[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
+    const [initialLoading, setInitialLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [visibleCount, setVisibleCount] = useState(5); // Initial number of boats to show
+    const [visibleCount, setVisibleCount] = useState(5);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const [filters, setFilters] = useState({
-        category: "",
+        category: 0,
         search: "",
         minPrice: 0,
         maxPrice: 1000000,
     });
+    const [isFilterChange, setIsFilterChange] = useState(false);
+    const filterRef = useRef(null);
+    
+    // Define filter change handlers before using them in useMemo
+    // Handle filter changes
+    const handleFilterChange = useCallback((newFilters: Partial<typeof filters>) => {
+        // Validate price filters
+        if (newFilters.minPrice !== undefined && newFilters.minPrice < 0) {
+            newFilters.minPrice = 0;
+        }
+        
+        if (newFilters.maxPrice !== undefined && newFilters.maxPrice < 0) {
+            newFilters.maxPrice = 0;
+        }
+        
+        // Ensure minPrice <= maxPrice
+        if (newFilters.minPrice !== undefined && 
+            newFilters.minPrice > filters.maxPrice && 
+            filters.maxPrice > 0) {
+            newFilters.minPrice = filters.maxPrice;
+        }
+        
+        if (newFilters.maxPrice !== undefined && 
+            newFilters.maxPrice < filters.minPrice) {
+            newFilters.maxPrice = filters.minPrice;
+        }
+        
+        setFilters((prev) => ({ ...prev, ...newFilters }));
+    }, [filters]);
 
-    // Load all boats data at once
+    // Handle reset filters
+    const handleResetFilters = useCallback(() => {
+        setFilters({
+            category: 0,
+            search: "",
+            minPrice: 0,
+            maxPrice: 1000000,
+        });
+    }, []);
+    
+    // Now we can use these handlers in the useMemo
+    // Memoize the filter props to prevent unnecessary re-renders
+    const filterProps = useMemo(() => ({
+        categories,
+        filters,
+        onFilterChange: handleFilterChange,
+        onReset: handleResetFilters,
+        loading: loading || initialLoading,
+        formatPrice,
+        maxPriceLimit: 1000000
+    }), [
+        categories,
+        filters,
+        loading,
+        initialLoading,
+        handleFilterChange,
+        handleResetFilters
+    ]);
+
+    // Load categories and all boats data once
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+        const fetchInitialData = async () => {
+            setInitialLoading(true);
             try {
+                // Fetch categories
                 const categoriesData = await api.getCategories();
                 setCategories(categoriesData);
-
-                const queryParams: any = {
-                    search: filters.search || undefined,
-                    min_price: filters.minPrice > 0 ? filters.minPrice : undefined,
-                    max_price: filters.maxPrice < 1000000 ? filters.maxPrice : undefined,
-                    category: filters.category || undefined,
-                };
-
-                const boatsData = await api.getBoats(queryParams);
-                setBoats(boatsData);
+                
+                // Fetch all boats without any filters
+                const boatsData = await api.getBoats({});
+                setAllBoats(boatsData);
+                setFilteredBoats(boatsData);
                 setError(null);
-                // Reset visible count when new data is loaded
-                setVisibleCount(5);
             } catch (err) {
-                setError("Failed to load data.");
-                console.error("Error fetching data:", err);
+                console.error("Error fetching initial data:", err);
+                setError("Failed to load data. Please try again later.");
             } finally {
-                setLoading(false);
+                setInitialLoading(false);
             }
         };
 
-        fetchData();
-    }, [filters]);
+        fetchInitialData();
+    }, []);
+
+    // Memoized filter function to avoid recreating on each render
+    const applyFilters = useCallback(() => {
+        // Skip if we're still loading initial data
+        if (initialLoading) return;
+        
+        setIsFilterChange(true);
+        
+        // Apply filtering logic client-side
+        const result = allBoats.filter(boat => {
+            // Category filter
+            console.log(filters.category);
+            console.log(boat.category.toString());
+            if (filters.category && boat.category !== filters.category) {
+                return false;
+            }
+            
+            // Search filter (search in boat name, description, etc.)
+            if (filters.search) {
+                const searchLower = filters.search.toLowerCase();
+                const nameMatch = boat.title.toLowerCase().includes(searchLower);
+                const categoryMatch = boat.category_detail?.name.toLowerCase().includes(searchLower);
+                
+                if (!nameMatch && !categoryMatch) {
+                    return false;
+                }
+            }
+            
+            // Price filters
+            if (filters.minPrice > 0 && boat.price < filters.minPrice) {
+                return false;
+            }
+            
+            if (filters.maxPrice < 1000000 && boat.price > filters.maxPrice) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        setFilteredBoats(result);
+        // Reset visible count when filters change
+        setVisibleCount(5);
+        
+        // Small delay before removing the filter change indicator
+        setTimeout(() => {
+            setIsFilterChange(false);
+        }, 300);
+    }, [filters, allBoats, initialLoading]);
+
+    // Apply filters whenever filters change
+    useEffect(() => {
+        setLoading(true);
+        
+        // Using a shorter timeout to improve responsiveness
+        const timeoutId = setTimeout(() => {
+            applyFilters();
+            setLoading(false);
+        }, 10);
+        
+        return () => clearTimeout(timeoutId);
+    }, [filters, applyFilters]);
 
     // Observe when user scrolls to load more boats
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting && visibleCount < boats.length) {
-                    // Show 5 more boats when scrolling down
-                    setVisibleCount(prev => Math.min(prev + 5, boats.length));
+                if (entries[0].isIntersecting && visibleCount < filteredBoats.length && !loading) {
+                    // Show 5 more boats when scrolling down (with a small delay for UX)
+                    setTimeout(() => {
+                        setVisibleCount(prev => Math.min(prev + 5, filteredBoats.length));
+                    }, 300);
                 }
             },
             { threshold: 0.1 }
@@ -87,59 +205,46 @@ const BoatListingPage: React.FC = () => {
                 observer.unobserve(currentRef);
             }
         };
-    }, [visibleCount, boats.length]);
-
-    // Handle filter changes
-    const handleFilterChange = (newFilters: Partial<typeof filters>) => {
-        setFilters((prev) => ({ ...prev, ...newFilters }));
-    };
-
-    // Handle reset filters
-    const handleResetFilters = () => {
-        setFilters({
-            category: "",
-            search: "",
-            minPrice: 0,
-            maxPrice: 1000000,
-        });
-    };
+    }, [visibleCount, filteredBoats.length, loading]);
 
     // Get only the boats that should be visible
-    const visibleBoats = boats.slice(0, visibleCount);
-    const hasMoreToShow = visibleCount < boats.length;
+    const visibleBoats = useMemo(() => 
+        filteredBoats.slice(0, visibleCount), 
+        [filteredBoats, visibleCount]
+    );
+    
+    const hasMoreToShow = visibleCount < filteredBoats.length;
 
     return (
         <Box sx={{ background: "linear-gradient(180deg, #f7f9fc 0%, white 100%)" }}>
             {/* Header Section */}
             <BoatListingHeroSection />
             
-            {/* Filters Section */}
-            <BoatFiltersSection 
-                categories={categories}
-                filters={filters}
-                onFilterChange={handleFilterChange}
-                onReset={handleResetFilters}
-                loading={loading}
-                formatPrice={formatPrice}
-                maxPriceLimit={1000000}
+            {/* Filters Section - using memoized props */}
+            <BoatFilters 
+                ref={filterRef}
+                {...filterProps}
             />
             <br />
             <br />
             
             {/* Results Section */}
             <BoatResultsSection 
-                boats={boats}
+                boats={filteredBoats}
                 visibleBoats={visibleBoats}
                 loading={loading}
+                initialLoading={initialLoading}
                 error={error}
                 formatPrice={formatPrice}
+                isFilterChange={isFilterChange}
             />
             
             {/* Load More Section */}
             <LoadMoreSection 
                 loadMoreRef={loadMoreRef}
                 hasMoreToShow={hasMoreToShow}
-                boatsCount={boats.length}
+                boatsCount={filteredBoats.length}
+                loading={loading && !initialLoading}
             />
 
             <FooterSpacerSection />
