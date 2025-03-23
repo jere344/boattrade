@@ -1,13 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
     Box,
-    Button,
     CircularProgress,
     Container,
     Typography,
 } from "@mui/material";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence} from "framer-motion";
 
 // Import components
 import ScrollAnimatedSection from "./ScrollAnimatedSection";
@@ -15,7 +14,6 @@ import HeroSection from "./HeroSection";
 import QuickInfoSection from "./QuickInfoSection";
 import GallerySection from "./GallerySection";
 import OverviewSection from "./OverviewSection";
-import SpecificationsSection from "./SpecificationsSection";
 import ContactSection from "./ContactSection";
 import NavigationHeader from "./NavigationHeader";
 import AmenitiesTechnicalSection from "./AmenitiesTechnicalSection";
@@ -62,10 +60,6 @@ const BoatDetailPage = () => {
 
     const handleInquiryClick = () => {
         setShowInquiryForm(true);
-    };
-
-    const handleThumbnailClick = (imageUrl: string) => {
-        setSelectedImage(imageUrl);
     };
 
     if (loading) {
@@ -142,7 +136,6 @@ const BoatDetailPage = () => {
             <ScrollAnimatedSection id="gallery">
                 <GallerySection 
                     boat={boat} 
-                    onThumbnailClick={handleThumbnailClick} 
                 />
             </ScrollAnimatedSection>
 
@@ -152,11 +145,6 @@ const BoatDetailPage = () => {
                     boat={boat} 
                     onInquiryClick={handleInquiryClick} 
                 />
-            </ScrollAnimatedSection>
-
-            {/* Specifications Section */}
-            <ScrollAnimatedSection id="specs">
-                <SpecificationsSection boat={boat} />
             </ScrollAnimatedSection>
 
             {/* New Amenities & Technical Section */}

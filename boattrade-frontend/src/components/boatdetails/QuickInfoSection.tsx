@@ -5,6 +5,8 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 interface QuickInfoSectionProps {
     boat: Boat;
@@ -58,7 +60,6 @@ const QuickInfoSection = ({ boat, onInquiryClick }: QuickInfoSectionProps) => {
                         {[
                             { id: "gallery", label: "Galerie" },
                             { id: "overview", label: "Aperçu" },
-                            { id: "specs", label: "Spécifications" },
                             { id: "contact", label: "Contact" },
                             { id: "amenities-technical", label: "Commodités et technique" },
                         ].map((section) => (
@@ -140,14 +141,26 @@ const QuickInfoSection = ({ boat, onInquiryClick }: QuickInfoSectionProps) => {
                                             </Box>
                                         </Box>
 
-                                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                                             <StraightenIcon sx={{ mr: 1, color: "primary.main" }} />
                                             <Box>
                                                 <Typography variant="body2" sx={{ color: "#445066", fontWeight: 500 }}>
-                                                    Length
+                                                    Longueur
                                                 </Typography>
                                                 <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "#1a2438" }}>
-                                                    {boat.length || "N/A"} ft
+                                                    {boat.length || "N/A"} m
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                                            <AspectRatioIcon sx={{ mr: 1, color: "primary.main" }} />
+                                            <Box>
+                                                <Typography variant="body2" sx={{ color: "#445066", fontWeight: 500 }}>
+                                                    Largeur
+                                                </Typography>
+                                                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "#1a2438" }}>
+                                                    {boat.width || "N/A"} m
                                                 </Typography>
                                             </Box>
                                         </Box>
@@ -158,7 +171,7 @@ const QuickInfoSection = ({ boat, onInquiryClick }: QuickInfoSectionProps) => {
                                             <CalendarMonthIcon sx={{ mr: 1, color: "primary.main" }} />
                                             <Box>
                                                 <Typography variant="body2" sx={{ color: "#445066", fontWeight: 500 }}>
-                                                    Year
+                                                    Année
                                                 </Typography>
                                                 <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "#1a2438" }}>
                                                     {boat.year_built || "N/A"}
@@ -166,14 +179,26 @@ const QuickInfoSection = ({ boat, onInquiryClick }: QuickInfoSectionProps) => {
                                             </Box>
                                         </Box>
 
-                                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                                             <LocalOfferIcon sx={{ mr: 1, color: "primary.main" }} />
                                             <Box>
                                                 <Typography variant="body2" sx={{ color: "#445066", fontWeight: 500 }}>
-                                                    Price
+                                                    Prix
                                                 </Typography>
                                                 <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "#1a2438" }}>
                                                     ${boat.price.toLocaleString()}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                                            <LocalGasStationIcon sx={{ mr: 1, color: "primary.main" }} />
+                                            <Box>
+                                                <Typography variant="body2" sx={{ color: "#445066", fontWeight: 500 }}>
+                                                    Type de carburant
+                                                </Typography>
+                                                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "#1a2438" }}>
+                                                    {boat.fuel_type || "N/A"}
                                                 </Typography>
                                             </Box>
                                         </Box>
