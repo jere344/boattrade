@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Box, IconButton, useTheme, Typography, Grid } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,9 +18,20 @@ const Header = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const navigate = useNavigate();
 
     const toggleDrawer = () => {
         setOpen(!open);
+    };
+
+    // Handle navigation and scroll to top
+    const handleHomeClick = (event) => {
+        event.preventDefault();
+        navigate("/");
+        window.scrollTo(0, 0);
+        if (open) {
+            toggleDrawer();
+        }
     };
 
     // Add scroll listener to detect when user has scrolled past 1 viewport height
@@ -106,9 +117,8 @@ const Header = () => {
 
             {/* Home Button */}
             <MotionIconButton
-                component={RouterLink}
-                to="/"
                 aria-label="home"
+                onClick={handleHomeClick}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 sx={{
@@ -178,19 +188,7 @@ const Header = () => {
                                 width: "100%",
                                 height: "100%",
                                 opacity: 0.06,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
                                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l100 100M25 0l75 100M50 0l50 100M75 0l25 100M0 25l75 100M0 50l50 100M0 75l25 100' stroke='%23B0E0E6' fill='none' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25c20 0 20 50 40 50c20 0 20-50 40-50c20 0 20 50 40 50' stroke='%23B0E0E6' fill='none' stroke-width='2' stroke-opacity='0.5'/%3E%3Cpath d='M0 50c20 0 20 50 40 50c20 0 20-50 40-50c20 0 20 50 40 50' stroke='%23B0E0E6' fill='none' stroke-width='2' stroke-opacity='0.5'/%3E%3Cpath d='M0 75c20 0 20-50 40-50c20 0 20 50 40 50c20 0 20-50 40-50' stroke='%23B0E0E6' fill='none' stroke-width='2' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none' stroke='%23B0E0E6' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M25 0v100M50 0v100M75 0v100M0 25h100M0 50h100M0 75h100' stroke='%23B0E0E6' fill='none' stroke-width='0.5' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-20 100l140-140M-10 110l140-140M0 120l140-140M10 130l140-140M20 140l140-140M30 150l140-140M40 160l140-140' stroke='%23B0E0E6' fill='none' stroke-width='1' stroke-opacity='0.5'/%3E%3Cpath d='M100 -20l-140 140M110 -10l-140 140M120 0l-140 140M130 10l-140 140M140 20l-140 140M150 30l-140 140M160 40l-140 140' stroke='%23B0E0E6' fill='none' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
-                                
-                                
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15c30 0 70 15 100 5M0 35c30 0 70 15 100 5M0 55c30 0 70 15 100 5M0 75c30 0 70 15 100 5M0 95c30 0 70 15 100 5' stroke='%23B0E0E6' stroke-width='1' fill='none' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20v45M40 60h20M35 40c0 8.3 6.7 15 15 15s15-6.7 15-15' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='20' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3Cpath d='M50 20v60M20 50h60M35 35l30 30M35 65l30-30' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='8' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3Ccircle cx='50' cy='30' r='10' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3Ccircle cx='80' cy='20' r='6' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3Ccircle cx='35' cy='70' r='12' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3Ccircle cx='75' cy='65' r='8' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50c25-25 75-25 100 0M0 75c25-25 75-25 100 0M0 25c25-25 75-25 100 0' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3C/svg%3E")`,
-                                // backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c0 0 20 20 40 0c20-20 0-40 0-40M70 70c0 0-20-20-40 0c-20 20 0 40 0 40' stroke='%23B0E0E6' fill='none' stroke-width='2'/%3E%3C/svg%3E")`,
                                 backgroundSize: "100px 100px",
                                 zIndex: 0,
                             }}
@@ -222,10 +220,9 @@ const Header = () => {
                                     }} 
                                 />
                             </Box>
-                            <RouterLink 
-                                to="/" 
-                                onClick={toggleDrawer}
-                                style={{ textDecoration: 'none' }}
+                            <Box 
+                                onClick={handleHomeClick}
+                                style={{ textDecoration: 'none', cursor: 'pointer' }}
                             >
                                 <Typography
                                     variant="h4"
@@ -240,7 +237,7 @@ const Header = () => {
                                 >
                                     {companyInfo.name}
                                 </Typography>
-                            </RouterLink>
+                            </Box>
                         </MotionBox>
 
                         {/* Main Content Container */}
@@ -283,9 +280,7 @@ const Header = () => {
                             <MotionBox variants={menuItemVariants} sx={{ mb: 3 }}>
                                 <Button
                                     variant="contained"
-                                    component={RouterLink}
-                                    to="/"
-                                    onClick={toggleDrawer}
+                                    onClick={handleHomeClick}
                                     startIcon={<DirectionsBoatIcon />}
                                     sx={{
                                         background: "linear-gradient(90deg, #1E3A5F, #4682B4)",

@@ -268,3 +268,18 @@ class Testimonial(models.Model):
     class Meta:
         verbose_name = "Témoignage"
         verbose_name_plural = "Témoignages"
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Titre")
+    content = models.TextField(verbose_name="Contenu")
+    image = models.ImageField(upload_to='blog/', blank=True, null=True, verbose_name="Image")
+    published_date = models.DateTimeField(default=timezone.now, verbose_name="Date de publication")
+    is_active = models.BooleanField(default=True, verbose_name="Publié")
+    
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name = "Article de blog"
+        verbose_name_plural = "Articles de blog"
+        ordering = ['-published_date']

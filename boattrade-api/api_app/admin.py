@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import (
     Boat, BoatCategory, BoatImage, BoatVideo, Inquiry, 
     SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem,
-    Testimonial, get_storage_info
+    Testimonial, BlogPost, get_storage_info
 )
 
 class BoatImageInline(admin.TabularInline):
@@ -254,4 +254,12 @@ class BoatVideoAdmin(admin.ModelAdmin):
         
         extra_context['storage_info_html'] = storage_info_html
         return super().changelist_view(request, extra_context=extra_context)
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'published_date', 'is_active')
+    list_filter = ('is_active', 'published_date')
+    search_fields = ('title', 'content')
+    fields = ('title', 'content', 'image', 'published_date', 'is_active')
+    readonly_fields = ('published_date',)
 

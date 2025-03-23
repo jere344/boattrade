@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Typography, Button, Container, Grid, useTheme } from "@mui/material";
+import { Box, Typography, Button, Container, Grid, useTheme, Chip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { motion, useTransform, useScroll, useMotionValue, useSpring } from "framer-motion";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import SellIcon from "@mui/icons-material/Sell";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import boatVideo from "@assets/vecteezy-boat.mp4";
 import marseilleVideo from "@assets/veteezy-marseille.mp4"; // Add this file to your assets
 import logoImage from "@assets/logo.webp";
+import { companyInfo } from "../../config/siteConfig";
 
 const MotionBox = motion(Box);
 const MotionTypography = motion(Typography);
 const MotionButton = motion(Button);
+const MotionChip = motion(Chip);
 
 const HeroSection: React.FC = () => {
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);
@@ -550,7 +553,7 @@ const HeroSection: React.FC = () => {
                                 style={{ opacity: subtitleOpacity, y: subtitleY }}
                                 color="white"
                                 sx={{
-                                    mb: 5,
+                                    mb: 3,
                                     maxWidth: "800px",
                                     mx: "auto",
                                     opacity: 0.9,
@@ -562,22 +565,40 @@ const HeroSection: React.FC = () => {
                                 Votre allié au service de votre transaction nautique
                             </MotionTypography>
 
-                            <MotionTypography
-                                variant="h5"
+                            {/* Enhanced Location Display */}
+                            <MotionBox
                                 style={{ opacity: subtitleOpacity, y: subtitleY }}
-                                color="white"
                                 sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
                                     mb: 5,
-                                    maxWidth: "800px",
-                                    mx: "auto",
-                                    opacity: 0.9,
-                                    textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                                    fontSize: { xs: "1.1rem", md: "1.3rem" },
+                                    mt: 2,
                                 }}
                                 variants={itemVariants}
                             >
-                                Situé à Palavas-les-flots
-                            </MotionTypography>
+                                <MotionChip
+                                    icon={<LocationOnIcon />}
+                                    label={companyInfo.city}
+                                    sx={{
+                                        bgcolor: 'rgba(255, 255, 255, 0.15)',
+                                        backdropFilter: 'blur(10px)',
+                                        color: 'white',
+                                        borderRadius: '20px',
+                                        py: 2,
+                                        px: 1,
+                                        '& .MuiChip-icon': {
+                                            color: theme.palette.secondary.light,
+                                        },
+                                        fontSize: { xs: "0.9rem", md: "1.1rem" },
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                        fontWeight: 500,
+                                    }}
+                                    whileHover={{ 
+                                        scale: 1.05,
+                                        boxShadow: '0 6px 16px rgba(0,0,0,0.2)'
+                                    }}
+                                />
+                            </MotionBox>
 
                             <MotionBox
                                 style={{ opacity: buttonsOpacity, y: buttonsY }}
@@ -590,26 +611,7 @@ const HeroSection: React.FC = () => {
                                 }}
                                 variants={itemVariants}
                             >
-                                {/* <Link to="/boats" style={{ textDecoration: "none" }}>
-                                    <MotionButton
-                                        variant="contained"
-                                        color="primary"
-                                        size="large"
-                                        whileHover={buttonHoverEffect}
-                                        whileTap={{ scale: 0.98 }}
-                                        startIcon={<DirectionsBoatIcon />}
-                                        sx={{
-                                            px: 4,
-                                            py: 1.8,
-                                            minWidth: { xs: "80%", sm: "200px" },
-                                            alignSelf: { xs: "center", sm: "auto" },
-                                        }}
-                                    >
-                                        Explorez Notre Flotte
-                                    </MotionButton>
-                                </Link> */}
-
-                                <Link to="/sell" style={{ textDecoration: "none" }}>
+                                <Link to="/boats" style={{ textDecoration: "none" }}>
                                     <MotionButton
                                         variant="contained"
                                         color="secondary"
@@ -628,7 +630,7 @@ const HeroSection: React.FC = () => {
                                     </MotionButton>
                                 </Link>
 
-                                <Link to="/sell" style={{ textDecoration: "none" }}>
+                                <Link to="/services" style={{ textDecoration: "none" }}>
                                     <MotionButton
                                         variant="contained"
                                         color="secondary"

@@ -5,7 +5,8 @@ import {
   CategoryListResponse,
   InquirySubmitResponse,
   SellRequestSubmitResponse,
-  TestimonialListResponse
+  TestimonialListResponse,
+  BlogPostResponse
 } from '@models/ApiResponses';
 import { Inquiry } from '@models/Inquiry';
 import { SellRequest } from '@models/SellRequest';
@@ -83,6 +84,12 @@ const api = {
     }
     
     const response = await apiClient.post('/sell-requests/', sellRequestData);
+    return response.data;
+  },
+  
+  // Blog posts - simplified to fetch all posts with full content
+  getBlogPosts: async (): Promise<BlogPostResponse> => {
+    const response = await apiClient.get('/blog/');
     return response.data;
   }
 };

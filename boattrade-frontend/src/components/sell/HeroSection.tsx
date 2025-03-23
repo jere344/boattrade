@@ -46,7 +46,7 @@ const HeroSection = () => {
                         right: 0,
                         bottom: 0,
                         backgroundColor: "rgba(43, 48, 69, 0.5)",
-                        backdropFilter: "blur(4px)",
+                        // backdropFilter: "blur(4px)",
                         zIndex: 2,
                     }}
                 />

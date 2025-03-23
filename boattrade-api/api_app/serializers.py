@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     Boat, BoatCategory, BoatImage, BoatVideo, Inquiry, 
     SellRequest, SellRequestImage, AmenityItem, TechnicalDetailItem,
-    Testimonial
+    Testimonial, BlogPost
 )
 
 class BoatCategorySerializer(serializers.ModelSerializer):
@@ -153,3 +153,8 @@ class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
         fields = ['id', 'name', 'role', 'avatar', 'quote', 'rating']
+
+class BlogPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogPost
+        fields = ['id', 'title', 'content', 'image', 'published_date', 'is_active']

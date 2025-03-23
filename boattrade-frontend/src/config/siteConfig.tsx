@@ -14,6 +14,7 @@ export const companyInfo = {
   email: "Boat.tradeconsulting@gmail.com ",
   phone: "06 51 51 06 36",
   address: "Palavas-les-Flots, 34250, France",
+  city: "Palavas-les-Flots",
   foundedYear: 2020
 };
 

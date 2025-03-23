@@ -7,11 +7,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 
-from .models import Boat, BoatCategory, BoatImage, Inquiry, SellRequest, SellRequestImage, Testimonial
+from .models import Boat, BoatCategory, BoatImage, Inquiry, SellRequest, SellRequestImage, Testimonial, BlogPost
 from .serializers import (
     BoatSerializer, BoatCategorySerializer, 
     InquirySerializer, SellRequestSerializer, BoatListSerializer,
-    TestimonialSerializer
+    TestimonialSerializer, BlogPostSerializer
 )
 
 # Public endpoints for visitors
@@ -161,4 +161,10 @@ class TestimonialViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint to view testimonials"""
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
+    permission_classes = [AllowAny]
+
+class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
+    """API endpoint to view blog posts"""
+    queryset = BlogPost.objects.filter(is_active=True).order_by('-published_date')
+    serializer_class = BlogPostSerializer
     permission_classes = [AllowAny]
