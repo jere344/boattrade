@@ -74,6 +74,7 @@ class Boat(models.Model):
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date de création de l'annonce")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour de l'annonce")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
+    is_featured = models.BooleanField(default=False, verbose_name="Mise en avant")
     
     def __str__(self):
         return self.title

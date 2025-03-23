@@ -70,13 +70,13 @@ class TechnicalDetailItemInline(admin.TabularInline):
 
 @admin.register(Boat)
 class BoatAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'price', 'year_built', 'location', 'is_active')
-    list_filter = ('category', 'is_active', 'year_built')
+    list_display = ('title', 'category', 'price', 'year_built', 'location', 'is_active', 'is_featured')
+    list_filter = ('category', 'is_active', 'is_featured', 'year_built')
     search_fields = ('title', 'description', 'location')
     inlines = [BoatImageInline, BoatVideoInline, AmenityItemInline, TechnicalDetailItemInline]
     fieldsets = (
         (None, {
-            'fields': ('title', 'category', 'description', 'price', 'is_active')
+            'fields': ('title', 'category', 'description', 'price', 'is_active', 'is_featured')
         }),
         ('Caractéristiques', {
             'fields': ('length', 'width', 'year_built', 'engine_power', 'fuel_type')

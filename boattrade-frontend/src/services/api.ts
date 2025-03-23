@@ -6,7 +6,8 @@ import {
   InquirySubmitResponse,
   SellRequestSubmitResponse,
   TestimonialListResponse,
-  BlogPostResponse
+  BlogPostResponse,
+  FeaturedBoatsResponse
 } from '@models/ApiResponses';
 import { Inquiry } from '@models/Inquiry';
 import { SellRequest } from '@models/SellRequest';
@@ -39,6 +40,11 @@ const api = {
   
   getBoat: async (id: number): Promise<BoatDetailResponse> => {
     const response = await apiClient.get(`/boats/${id}/`);
+    return response.data;
+  },
+  
+  getFeaturedBoats: async (): Promise<FeaturedBoatsResponse> => {
+    const response = await apiClient.get('/featured-boats/');
     return response.data;
   },
   

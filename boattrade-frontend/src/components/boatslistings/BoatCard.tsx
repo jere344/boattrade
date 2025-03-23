@@ -303,7 +303,8 @@ const BoatCard: React.FC<BoatCardProps> = ({
                 boxShadow: '0 4px 12px rgba(45, 78, 112, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
                 '&:hover': {
                   boxShadow: '0 6px 18px rgba(45, 78, 112, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3)',
-                }
+                },
+                zIndex: 2
               }}
             >
               View Details

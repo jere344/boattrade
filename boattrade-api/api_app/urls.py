@@ -12,4 +12,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('inquiries/', views.submit_inquiry, name='submit_inquiry'),
     path('sell-requests/', views.submit_sell_request, name='submit_sell_request'),
+    path('featured-boats/', views.get_featured_boats, name='featured_boats'),
 ]

@@ -12,3 +12,4 @@ export type InquirySubmitResponse = InquiryResponse;
 export type SellRequestSubmitResponse = SellRequestResponse;
 export type TestimonialListResponse = Testimonial[];
 export type BlogPostResponse = BlogPost[];
+export type FeaturedBoatsResponse = BoatSummary[];

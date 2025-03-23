@@ -43,6 +43,7 @@ class BoatViewSet(viewsets.ReadOnlyModelViewSet):
         max_price = self.request.query_params.get('max_price')
         min_year = self.request.query_params.get('min_year')
         max_year = self.request.query_params.get('max_year')
+        featured = self.request.query_params.get('featured')
         
         if category:
             queryset = queryset.filter(category_id=category)
@@ -64,7 +65,18 @@ class BoatViewSet(viewsets.ReadOnlyModelViewSet):
         if max_year:
             queryset = queryset.filter(year_built__lte=max_year)
             
+        if featured and featured.lower() == 'true':
+            queryset = queryset.filter(is_featured=True)
+            
         return queryset
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_featured_boats(request):
+    """API endpoint to get featured boats"""
+    featured_boats = Boat.objects.filter(is_active=True, is_featured=True).order_by('-created_at')
+    serializer = BoatListSerializer(featured_boats, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

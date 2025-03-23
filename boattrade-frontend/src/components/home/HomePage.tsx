@@ -35,11 +35,11 @@ const HomePage: React.FC = () => {
       {/* Category Section */}
       <CategorySection />
       
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-      
       {/* Featured Listings Section */}
       <FeaturedListingsSection />
+      
+      {/* Testimonials Section */}
+      <TestimonialsSection />
       
       {/* Call to Action Section */}
       <BlogPostsSection />
