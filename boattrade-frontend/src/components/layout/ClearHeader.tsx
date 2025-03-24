@@ -347,7 +347,7 @@ const Header = () => {
                                 <Button
                                     variant="outlined"
                                     component={RouterLink}
-                                    to="/sell-my-boat"
+                                    to="/services"
                                     onClick={toggleDrawer}
                                     endIcon={<HandshakeIcon />}
                                     sx={{

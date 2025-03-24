@@ -20,12 +20,12 @@ class StaticViewSitemap(Sitemap):
     changefreq = "monthly"
 
     def items(self):
-        return ['homepage', 'boats_listing', 'sell_my_boat']
+        return ['homepage', 'boats_listing', 'services']
     
     def location(self, item):
         if item == 'homepage':
             return '/'
         elif item == 'boats_listing':
             return '/boats'
-        elif item == 'sell_my_boat':
-            return '/sell-my-boat'
+        elif item == 'services':
+            return '/services'

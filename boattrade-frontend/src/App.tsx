@@ -7,7 +7,7 @@ import HomePage from "./components/home/HomePage";
 import Header from "./components/layout/Header";
 // import Header from './components/layout/ClearHeader';
 import Footer from "./components/layout/Footer";
-import SellMyBoatPage from "./components/sell/SellMyBoatPage";
+import ServicesPage from "@components/services/ServicesPage";
 import BoatDetailPage from "./components/boatdetails/BoatDetailPage";
 import { getLightTheme } from "@theme/lightTheme";
 
@@ -15,19 +15,11 @@ function ScrollToTop() {
     const { pathname, search } = useLocation();
 
     useEffect(() => {
-        if (pathname === "/boats") {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "instant",
-            });
-        } else {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-            });
-        }
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant",
+        });
     }, [pathname, search]);
 
     return null;
@@ -43,7 +35,7 @@ const Layout = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/boats" element={<BoatListingPage />} />
                 <Route path="/boats/:boatId" element={<BoatDetailPage />} />
-                <Route path="/sell-my-boat" element={<SellMyBoatPage />} />
+                <Route path="/services" element={<ServicesPage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <Footer />

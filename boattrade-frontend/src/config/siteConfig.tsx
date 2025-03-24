@@ -30,7 +30,7 @@ export const socialMedia = [
 export const navigationLinks = [
   { name: "Accueil", path: "/" },
   { name: "Les bateaux de nos partenaires", path: "/boats" },
-  { name: "Nos services", path: "/sell-my-boat" },
+  { name: "Nos services", path: "/services" },
 ];
 
 // Contact information with icons

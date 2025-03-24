@@ -185,7 +185,7 @@ const SellBoatForm: React.FC = () => {
                         </Box>
                         <Box>
                             <Typography variant="body2" sx={{ opacity: 0.7, fontWeight: 300, mb: 0.5, letterSpacing: 1 }}>
-                                VENTE
+                                VENDRE VOTRE BATEAU
                             </Typography>
                             <Typography variant="h5" sx={{ fontWeight: 200, letterSpacing: 0.5 }}>
                                 Remplissez le formulaire ci-dessous
@@ -506,7 +506,7 @@ const SellBoatForm: React.FC = () => {
                     }}
                 >
                     <Typography variant="body2">
-                        Fiable par des milliers de propriétaires de bateaux dans le monde entier. Vos informations sont sécurisées et ne seront jamais partagées.
+                        Vos informations sont sécurisées et ne seront jamais partagées.
                     </Typography>
                 </Box>
             </Container>
