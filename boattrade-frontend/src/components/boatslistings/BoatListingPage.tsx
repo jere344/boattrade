@@ -30,7 +30,7 @@ const BoatListingPage: React.FC = () => {
     const [visibleCount, setVisibleCount] = useState(5);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const [filters, setFilters] = useState({
-        category: 0,
+        category: "",
         search: "",
         minPrice: 0,
         maxPrice: 1000000,
@@ -68,7 +68,7 @@ const BoatListingPage: React.FC = () => {
     // Handle reset filters
     const handleResetFilters = useCallback(() => {
         setFilters({
-            category: 0,
+            category: "",
             search: "",
             minPrice: 0,
             maxPrice: 1000000,
@@ -129,9 +129,7 @@ const BoatListingPage: React.FC = () => {
         // Apply filtering logic client-side
         const result = allBoats.filter(boat => {
             // Category filter
-            console.log(filters.category);
-            console.log(boat.category.toString());
-            if (filters.category && boat.category !== filters.category) {
+            if (filters.category && boat.category.toString() !== filters.category.toString()) {
                 return false;
             }
             
@@ -215,8 +213,43 @@ const BoatListingPage: React.FC = () => {
     
     const hasMoreToShow = visibleCount < filteredBoats.length;
 
+    // Create meta description based on available data
+    const metaDescription = `Découvrez notre sélection de ${filteredBoats.length} bateaux à vendre. Des voiliers aux bateaux à moteur, trouvez l'embarcation de vos rêves chez BoatTrade Consulting.`;
+    
+    // Calculate price range for meta content if boats are available
+    const priceInfo = filteredBoats.length > 0 ? 
+        `Prix de ${formatPrice(Math.min(...filteredBoats.map(b => b.price)))} à ${formatPrice(Math.max(...filteredBoats.map(b => b.price)))}` :
+        "";
+    
+    // Get category names for keywords
+    const categoryNames = categories.map(cat => cat.name).join(", ");
+
     return (
         <Box sx={{ background: "linear-gradient(180deg, #f7f9fc 0%, white 100%)" }}>
+            {/* Meta Tags for SEO */}
+            <title>Bateaux à Vendre | Annonces de Bateaux | BoatTrade Consulting</title>
+            <meta name="title" content="Bateaux à Vendre | Annonces de Bateaux | BoatTrade Consulting" />
+            <meta name="description" content={metaDescription} />
+            <meta name="keywords" content={`bateaux à vendre, annonces bateaux, vente bateau, ${categoryNames}, occasion, neuf, BoatTrade Consulting`} />
+            
+            {/* Open Graph / Facebook */}
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://www.boattradeconsulting.fr/boats" />
+            <meta property="og:title" content="Bateaux à Vendre | Annonces de Bateaux | BoatTrade Consulting" />
+            <meta property="og:description" content={metaDescription} />
+            <meta property="og:image" content="/assets/images/logo.webp" />
+            
+            {/* Twitter */}
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content="https://www.boattradeconsulting.fr/boats" />
+            <meta property="twitter:title" content="Bateaux à Vendre | Annonces de Bateaux | BoatTrade Consulting" />
+            <meta property="twitter:description" content={metaDescription} />
+            <meta property="twitter:image" content="/assets/images/logo.webp" />
+            
+            {/* Additional */}
+            <meta name="robots" content="index, follow" />
+            <link rel="canonical" href="https://www.boattradeconsulting.fr/boats" />
+            
             {/* Header Section */}
             <BoatListingHeroSection />
             

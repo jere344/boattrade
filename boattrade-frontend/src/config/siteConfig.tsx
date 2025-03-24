@@ -1,4 +1,3 @@
-import React from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -6,6 +5,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import logo from "@assets/images/logo.webp";
 
 // Company information
 export const companyInfo = {
@@ -31,7 +31,6 @@ export const navigationLinks = [
   { name: "Accueil", path: "/" },
   { name: "Les bateaux de nos partenaires", path: "/boats" },
   { name: "Nos services", path: "/sell-my-boat" },
-  { name: "Services", path: "/services" },
 ];
 
 // Contact information with icons

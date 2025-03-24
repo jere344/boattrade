@@ -13,7 +13,7 @@ const MotionTypography = motion.create(Typography);
 const MotionGrid = motion.create(Grid);
 
 // Create a properly connected motion router link
-const MotionRouterLink = motion(RouterLink);
+const MotionRouterLink =  motion.create(RouterLink);
 
 const Footer = () => {
     const theme = useTheme();

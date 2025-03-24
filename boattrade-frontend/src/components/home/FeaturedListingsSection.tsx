@@ -8,8 +8,8 @@ import { BoatSummary } from '@models/Boat';
 import BoatCard from '@components/boatslistings/BoatCard.tsx';
 
 // Motion components
-const MotionTypography = motion(Typography);
-const MotionBox = motion(Box);
+const MotionTypography =  motion.create(Typography);
+const MotionBox =  motion.create(Box);
 
 const FeaturedListingsSection: React.FC = () => {
   const theme = useTheme();

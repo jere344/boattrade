@@ -76,21 +76,6 @@ const BlogPostsSection: React.FC = () => {
         mb: 12,
       }}
     >
-      {/* Decorative elements */}
-      <Box 
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.08,
-          backgroundImage: 'url(https://images.unsplash.com/photo-1575386248693-32fc8162e0b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          zIndex: 0,
-        }}
-      />
 
       {/* Animated waves */}
       <motion.div

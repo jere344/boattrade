@@ -3,7 +3,7 @@ import { Box, Typography, CircularProgress, Container, Fade } from '@mui/materia
 import { motion } from 'framer-motion';
 
 interface LoadMoreSectionProps {
-  loadMoreRef: React.RefObject<HTMLDivElement>;
+  loadMoreRef: React.RefObject<HTMLDivElement | null>;
   hasMoreToShow: boolean;
   boatsCount: number;
   loading?: boolean;

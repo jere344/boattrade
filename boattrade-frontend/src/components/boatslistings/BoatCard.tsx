@@ -14,9 +14,9 @@ import StarIcon from '@mui/icons-material/Star';
 import { BoatSummary } from '../../models/Boat';
 
 // Motion components
-const MotionBox = motion(Box);
-const MotionButton = motion(Button);
-const MotionTypography = motion(Typography);
+const MotionBox =  motion.create(Box);
+const MotionButton =  motion.create(Button);
+const MotionTypography =  motion.create(Typography);
 
 interface BoatCardProps {
   boat: BoatSummary;

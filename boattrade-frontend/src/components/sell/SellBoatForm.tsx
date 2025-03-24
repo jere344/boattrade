@@ -20,7 +20,7 @@ import { SellRequest } from "../../models/SellRequest";
 import api from "../../services/api";
 
 // Motion components
-const withMotion = (Component: any) => motion(Component);
+const withMotion = (Component: any) =>  motion.create(Component);
 const MotionBox = withMotion(Box);
 const MotionTextField = withMotion(TextField);
 
@@ -185,7 +185,7 @@ const SellBoatForm: React.FC = () => {
                         </Box>
                         <Box>
                             <Typography variant="body2" sx={{ opacity: 0.7, fontWeight: 300, mb: 0.5, letterSpacing: 1 }}>
-                                VENTE EXCLUSIVE
+                                VENTE
                             </Typography>
                             <Typography variant="h5" sx={{ fontWeight: 200, letterSpacing: 0.5 }}>
                                 Remplissez le formulaire ci-dessous

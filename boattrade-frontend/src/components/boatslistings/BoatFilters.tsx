@@ -29,7 +29,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { motion } from 'framer-motion';
 import { useDebounce } from '../../hooks/useDebounce';
 
-const MotionPaper = motion(Paper);
+const MotionPaper =  motion.create(Paper);
 
 interface BoatFiltersProps {
   categories: Category[];
@@ -86,6 +86,23 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
       }
     }
   }));
+  
+  // Effect to check for category in URL query parameters when component mounts
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryParam = params.get('category');
+    // now remove it from the URL
+    params.delete('category');
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+    
+    if (categoryParam && categoryParam !== filters.category.toString()) {
+      const categoryId = parseInt(categoryParam, 10);
+      // Verify this is a valid category ID
+      if (!isNaN(categoryId) && categories.some(cat => cat.id === categoryId)) {
+        onFilterChange({ category: categoryId });
+      }
+    }
+  }, [categories]); // Only run on mount and when categories change
   
   // Effect to restore focus after render
   useEffect(() => {

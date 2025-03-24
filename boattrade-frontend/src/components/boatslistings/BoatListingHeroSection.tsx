@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SailingIcon from "@mui/icons-material/Sailing";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-const MotionBox = motion(Box);
+const MotionBox =  motion.create(Box);
 
 const BoatListingHeroSection = () => {
   return (

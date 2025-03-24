@@ -2,6 +2,17 @@ import React from 'react';
 import { Box, Typography, useTheme, Container, Paper } from '@mui/material';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { companyInfo } from '../../config/siteConfig';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix for Leaflet marker icon issue in React
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const MapSection: React.FC = () => {
   const theme = useTheme();
@@ -9,8 +20,9 @@ const MapSection: React.FC = () => {
   const opacity = useTransform(scrollYProgress, [0.6, 0.7], [0, 1]);
   const yPos = useTransform(scrollYProgress, [0.6, 0.8], [100, 0]);
   
-  // Format address for Google Maps URL (replace spaces with + for URL encoding)
-  const formattedAddress = encodeURIComponent(companyInfo.address);
+  // Approximate coordinates for Palavas-les-Flots, France
+  // You should replace these with the exact coordinates for your location
+  const position: [number, number] = [43.5283, 3.9322];
   
   return (
     <Box
@@ -49,7 +61,7 @@ const MapSection: React.FC = () => {
           width: '30%',
           height: '50px',
           // bgcolor: theme.palette.background.default,
-          bgcolor: "black",
+          bgcolor: "rgba(20,20,20,1)",
           zIndex: 1,
           borderBottomLeftRadius: '30px',
         }}>
@@ -107,22 +119,30 @@ const MapSection: React.FC = () => {
               height: 400,
               borderRadius: theme.shape.borderRadius,
               overflow: 'hidden',
+              '.leaflet-container': {
+                height: '100%',
+                width: '100%',
+                zIndex: 1
+              }
             }}
           >
-            <Box sx={{ width: '100%', height: '100%' }}>
-              <iframe 
-                width="100%" 
-                height="100%" 
-                frameBorder="0" 
-                scrolling="no" 
-                marginHeight={0} 
-                marginWidth={0} 
-                src={`https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=fr&amp;q=${formattedAddress}+(${encodeURIComponent(companyInfo.name)})&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed`}
-                style={{ border: 0 }}
-                title="Google Maps"
-                aria-label="Google Maps showing company location"
+            <MapContainer 
+              center={position} 
+              zoom={14} 
+              scrollWheelZoom={false}
+              style={{ height: '100%', width: '100%' }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-            </Box>
+              <Marker position={position}>
+                <Popup>
+                  {companyInfo.name}<br/>
+                  {companyInfo.address}
+                </Popup>
+              </Marker>
+            </MapContainer>
           </Paper>
           
           <Box

@@ -8,13 +8,13 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import boatVideo from "@assets/vecteezy-boat.mp4";
 import marseilleVideo from "@assets/veteezy-marseille.mp4"; // Add this file to your assets
-import logoImage from "@assets/logo.webp";
+// import logoImage from "@assets/logo.webp";
 import { companyInfo } from "../../config/siteConfig";
 
-const MotionBox = motion(Box);
-const MotionTypography = motion(Typography);
-const MotionButton = motion(Button);
-const MotionChip = motion(Chip);
+const MotionBox =  motion.create(Box);
+const MotionTypography =  motion.create(Typography);
+const MotionButton =  motion.create(Button);
+const MotionChip =  motion.create(Chip);
 
 const HeroSection: React.FC = () => {
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);

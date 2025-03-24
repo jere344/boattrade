@@ -6,7 +6,7 @@ import { Testimonial } from '@models/Testimonial';
 import TestimonialCard from './TestimonialCard';
 
 // Motion components
-const MotionTypography = motion(Typography);
+const MotionTypography =  motion.create(Typography);
 
 const TestimonialsSection: React.FC = () => {
   const theme = useTheme();

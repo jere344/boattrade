@@ -105,6 +105,13 @@ const BoatDetailPage = () => {
         );
     }
 
+    // Find the main image URL for meta tags
+    const mainImageUrl = boat.images.find(img => img.is_main)?.image || boat.images[0]?.image || '';
+    // Format price for display
+    const formattedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(boat.price);
+    // Create a more detailed meta description
+    const metaDescription = `${boat.title} - ${boat.year_built} - ${formattedPrice} - ${boat.location}. ${boat.description.substring(0, 150)}...`;
+
     return (
         <Box
             sx={{
@@ -114,6 +121,31 @@ const BoatDetailPage = () => {
                 scrollBehavior: "smooth",
             }}
         >
+            <title>{`${boat.title} - ${boat.year_built} - BoatTrade Consulting`}</title>
+            <meta name="title" content={`${boat.title} - ${boat.year_built} - BoatTrade Consulting`} />
+            <meta name="description" content={metaDescription} />
+            <meta name="keywords" content={`boat, ${boat.title}, ${boat.category_detail?.name}, ${boat.year_built}, ${boat.location}, vente, achat, navigation`} />
+            
+            {/* Open Graph / Facebook */}
+            <meta property="og:type" content="product" />
+            <meta property="og:url" content={`https://www.boattradeconsulting.fr/boats/${boat.id}`} />
+            <meta property="og:title" content={`${boat.title} - ${boat.year_built} - BoatTrade Consulting`} />
+            <meta property="og:description" content={metaDescription} />
+            <meta property="og:image" content={mainImageUrl} />
+            <meta property="product:price:amount" content={`${boat.price}`} />
+            <meta property="product:price:currency" content="EUR" />
+            
+            {/* Twitter */}
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content={`https://www.boattradeconsulting.fr/boats/${boat.id}`} />
+            <meta property="twitter:title" content={`${boat.title} - ${boat.year_built} - BoatTrade Consulting`} />
+            <meta property="twitter:description" content={metaDescription} />
+            <meta property="twitter:image" content={mainImageUrl} />
+            
+            {/* Additional */}
+            <meta name="robots" content="index, follow" />
+            <link rel="canonical" href={`https://www.boattradeconsulting.fr/boats/${boat.id}`} />
+
             {/* Navigation Header */}
             <NavigationHeader 
                 boatTitle={boat.title}

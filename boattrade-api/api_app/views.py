@@ -129,14 +129,18 @@ def submit_sell_request(request):
     if serializer.is_valid():
         sell_request = serializer.save()
         
+        # Track uploaded images for email notification
+        image_info = []
+        
         # Handle uploaded images
         if 'images' in request.FILES:
             images = request.FILES.getlist('images')
             for image in images:
-                SellRequestImage.objects.create(
+                sell_request_image = SellRequestImage.objects.create(
                     sell_request=sell_request,
                     image=image
                 )
+                image_info.append(f"- {image.name} ({image.size/1024:.1f} KB)")
         
         # Send email notification to admin
         subject = "New Boat Selling Request"
@@ -152,6 +156,9 @@ def submit_sell_request(request):
         
         Additional Comments:
         {sell_request.comment}
+        
+        Uploaded Images ({len(image_info)} total):
+        {"None" if not image_info else "\n".join(image_info)}
         """
         try:
             print("Sending email")

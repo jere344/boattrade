@@ -22,7 +22,7 @@ const GREY_GRADIENT = "linear-gradient(135deg, #1a365d 0%, #2a4365 50%, #2c5282 
 const GOLD_ACCENT = "rgba(212, 175, 55, 0.85)";
 
 // Motion components with common animations
-const withMotion = (Component:any) => motion(Component);
+const withMotion = (Component:any) => motion.create(Component);
 const MotionBox = withMotion(Box);
 const MotionTextField = withMotion(TextField);
 const MotionAlert = withMotion(Alert);

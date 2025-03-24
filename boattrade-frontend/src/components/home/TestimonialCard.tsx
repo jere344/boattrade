@@ -5,8 +5,8 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Testimonial } from '@models/Testimonial';
 
 // Motion components
-const MotionBox = motion(Box);
-const MotionAvatar = motion(Avatar);
+const MotionBox =  motion.create(Box);
+const MotionAvatar =  motion.create(Avatar);
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial; index: number }> = ({ testimonial, index }) => {
   const theme = useTheme();
