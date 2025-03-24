@@ -6,7 +6,7 @@ import logo from '../../assets/logo.webp';
 
 const FooterSpacerSection: React.FC = () => {
   return (
-    <Container maxWidth="lg" sx={{ textAlign: 'center', mb: "-30px" }}>
+    <Container maxWidth="lg" sx={{ textAlign: 'center', mb: "-35px" }}>
       <Box sx={{ my: 4}}>
         {/* <img src={AnchorIcon} alt="Anchor" width="250" height="auto"/> */}
         <img 
