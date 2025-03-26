@@ -6,6 +6,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import founderImage from '@assets/founder.jpg';
 
 const ContentSection: React.FC<{
   icon?: React.ReactNode;
@@ -229,7 +230,7 @@ const AboutCompanySection: React.FC = () => {
               mb: 3
             }}
             alt="Stephen"
-            src="/images/founder.jpg" // Add a real image path if available
+            src={founderImage}
           />
           
           <Typography 

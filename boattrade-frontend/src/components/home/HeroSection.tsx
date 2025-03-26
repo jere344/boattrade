@@ -7,7 +7,7 @@ import SellIcon from "@mui/icons-material/Sell";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import boatVideo from "@assets/vecteezy-boat.mp4";
-import marseilleVideo from "@assets/veteezy-marseille.mp4"; // Add this file to your assets
+import motorboat from "@assets/motoboat.mp4";
 // import logoImage from "@assets/logo.webp";
 import { companyInfo } from "../../config/siteConfig";
 
@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
     const smoothRotation = useSpring(rotation, { damping: 50, stiffness: 100 });
 
     // Video sources array
-    const videoSources = [boatVideo, marseilleVideo];
+    const videoSources = [boatVideo, motorboat];
 
     // Create a floating effect for the compass
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
