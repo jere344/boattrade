@@ -172,8 +172,8 @@ const Footer = () => {
                             left: 0,
                             width: "100%",
                             height: "100%",
-                            opacity: 0.05,
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 25 20 75 40 75C60 75 60 25 80 25C100 25 100 75 120 75' stroke='%23B0E0E6' fill='none' stroke-width='3'/%3E%3C/svg%3E")`,
+                            opacity: 0.08,
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l100 100M25 0l75 100M50 0l50 100M75 0l25 100M0 25l75 100M0 50l50 100M0 75l25 100' stroke='%23B0E0E6' fill='none' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E")`,
                         backgroundSize: "100px 100px",
                         zIndex: 0,
                     }}

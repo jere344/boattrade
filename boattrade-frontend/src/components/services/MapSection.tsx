@@ -21,8 +21,7 @@ const MapSection: React.FC = () => {
   const yPos = useTransform(scrollYProgress, [0.6, 0.8], [100, 0]);
   
   // Approximate coordinates for Palavas-les-Flots, France
-  // You should replace these with the exact coordinates for your location
-  const position: [number, number] = [43.5283, 3.9322];
+  const position: [number, number] = [43.52602, 3.93200];
   
   return (
     <Box

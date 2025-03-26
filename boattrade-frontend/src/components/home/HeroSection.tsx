@@ -558,7 +558,9 @@ const HeroSection: React.FC = () => {
                                     mx: "auto",
                                     opacity: 0.9,
                                     textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                                    fontSize: { xs: "1.1rem", md: "1.3rem" },
+                                    fontSize: { xs: "1.1rem", md: "1.5rem" },
+                                    // space between chaaracters
+                                    letterSpacing: { xs: "0em", md: "0.1em" },
                                 }}
                                 variants={itemVariants}
                             >
@@ -592,6 +594,7 @@ const HeroSection: React.FC = () => {
                                         fontSize: { xs: "0.9rem", md: "1.1rem" },
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                                         fontWeight: 500,
+                                        scale:1.2
                                     }}
                                     whileHover={{ 
                                         scale: 1.05,

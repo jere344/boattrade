@@ -46,7 +46,7 @@ const PurchaseAssistanceService: React.FC = () => {
       sx={{ 
         py: { xs: 8, md: 12 },
         position: 'relative',
-        background: 'linear-gradient(135deg, #001424 0%, #012442 50%, #023657 100%)',
+        background: 'linear-gradient(135deg,rgb(86, 117, 167) 0%,rgb(62, 74, 148) 50%,rgb(52, 52, 96) 100%)',
         overflow: 'hidden',
       }}
     >

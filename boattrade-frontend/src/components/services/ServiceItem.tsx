@@ -88,11 +88,11 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ icon, title, description, ind
               {icon}
             </Box>
             <Typography 
-              variant="h6" 
+              variant="h5" 
               component="h3"
               sx={{ 
                 color: theme.palette.secondary.light,
-                fontWeight: 600,
+                fontWeight: 700,
               }}
             >
               {title}
@@ -102,7 +102,7 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ icon, title, description, ind
           <Typography 
             variant="body2" 
             sx={{
-              color: 'rgba(255, 255, 255, 0.75)',
+              color: 'rgb(255, 255, 255)',
               lineHeight: 1.7,
               fontSize: '1.05rem',
               flex: 1, // Take remaining space in flex container

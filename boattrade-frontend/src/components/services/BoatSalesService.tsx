@@ -3,7 +3,7 @@ import { Box, Typography, Container, Paper, Grid, useTheme, Button } from '@mui/
 import { motion } from 'framer-motion';
 import SellIcon from '@mui/icons-material/Sell';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import ShareIcon from '@mui/icons-material/Share';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import GroupIcon from '@mui/icons-material/Group';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import GavelIcon from '@mui/icons-material/Gavel';
@@ -25,14 +25,14 @@ const BoatSalesService: React.FC = () => {
       description: "Reportage photo et vidéo professionnel, rédaction d'une annonce attractive et précise qui met en avant les atouts de votre embarcation."
     },
     {
-      icon: <ShareIcon fontSize="medium" />,
-      title: "Diffusion ciblée",
-      description: "Publication stratégique sur les plateformes spécialisées et diffusion privilégiée auprès de notre réseau qualifié d'acheteurs potentiels."
-    },
-    {
       icon: <GroupIcon fontSize="medium" />,
       title: "Gestion des visites",
       description: "Sélection rigoureuse des prospects sérieux et solvables, organisation et accompagnement lors des visites pour une présentation optimale."
+    },
+    {
+      icon: <VisibilityIcon fontSize="medium" />,
+      title: "Diffusion ciblée",
+      description: "Publication stratégique sur les plateformes spécialisées et diffusion privilégiée auprès de notre réseau qualifié d'acheteurs potentiels."
     },
     {
       icon: <HandshakeIcon fontSize="medium" />,
@@ -53,7 +53,7 @@ const BoatSalesService: React.FC = () => {
       sx={{ 
         py: { xs: 8, md: 12 },
         position: 'relative',
-        background: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
+        background: 'linear-gradient(135deg,rgb(86, 117, 167) 0%,rgb(62, 74, 148) 50%,rgb(52, 52, 96) 100%)',
         overflow: 'hidden',
       }}
     >
@@ -157,7 +157,7 @@ const BoatSalesService: React.FC = () => {
                 fontSize: { xs: '2rem', md: '3rem' }
               }}
             >
-              Vente de Bateaux
+              Vous souhaitez vendre votre bateau ?
             </Typography>
           </motion.div>
         </Box>
@@ -206,7 +206,7 @@ const BoatSalesService: React.FC = () => {
                   fontSize: { xs: '1.5rem', md: '2rem' }
                 }}
               >
-                Vous souhaitez vendre votre bateau ?
+                Confiez-nous la vente de votre bateau
               </Typography>
               
               <Typography 
