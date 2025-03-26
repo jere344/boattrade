@@ -401,14 +401,25 @@ const HeroSection: React.FC = () => {
                     damping: 30,
                     delay: 0.8,
                 }}
+                onClick={() => {
+                    window.scrollTo({
+                        top: window.innerHeight,
+                        behavior: 'smooth'
+                    });
+                }}
                 sx={{
                     position: "absolute",
-                    top: { xs: "8%", md: "2%", lg: "6%", xl: "13%" },
-                    right: { xs: "10%", md: "7%", lg: "7%", xl: "15%" },
-                    width: { xs: "100px", sm: "140px", md: "160px", lg: "180px" },
-                    height: { xs: "100px", sm: "140px", md: "160px", lg: "180px" },
+                    bottom: { xs: "8%", md: "5%" },
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: { xs: "100px", sm: "120px", md: "140px", lg: "160px" },
+                    height: { xs: "100px", sm: "120px", md: "140px", lg: "160px" },
                     zIndex: 5,
                     filter: "drop-shadow(0px 0px 15px rgba(172, 190, 206, 0.7))",
+                    cursor: "pointer",
+                    "&:hover": {
+                        filter: "drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.9))",
+                    }
                 }}
             >
                 {/* Compass/Logo Design */}
@@ -499,6 +510,18 @@ const HeroSection: React.FC = () => {
                         <tspan x="100" dy="-5">BOAT TRADE</tspan>
                         <tspan x="100" dy="12">CONSULTING</tspan>
                     </motion.text>
+
+                    {/* Down Arrow */}
+                    <motion.path
+                        d="M100 140 L85 125 L100 125 L100 110 L100 125 L115 125 Z"
+                        fill="white"
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: [0, 5, 0] }}
+                        transition={{
+                            opacity: { duration: 1, delay: 2.2 },
+                            y: { duration: 1.5, repeat: Infinity, repeatType: "reverse" }
+                        }}
+                    />
                 </svg>
             </MotionBox>
 
@@ -616,8 +639,7 @@ const HeroSection: React.FC = () => {
                             >
                                 <Link to="/boats" style={{ textDecoration: "none" }}>
                                     <MotionButton
-                                        variant="contained"
-                                        color="secondary"
+                                        variant="outlined"
                                         size="large"
                                         whileHover={buttonHoverEffect}
                                         whileTap={{ scale: 0.98 }}
@@ -627,16 +649,25 @@ const HeroSection: React.FC = () => {
                                             py: 1.8,
                                             minWidth: { xs: "80%", sm: "200px" },
                                             alignSelf: { xs: "center", sm: "auto" },
+                                            color: "white",
+                                            borderColor: "rgba(255, 255, 255, 0.5)",
+                                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                            backdropFilter: "blur(10px)",
+                                            transition: "all 0.3s ease",
+                                            "&:hover": {
+                                                borderColor: "white",
+                                                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0 0 15px rgba(255, 255, 255, 0.4)",
+                                            }
                                         }}
                                     >
-                                        Explorez Notre Flotte
+                                        Trouvez Votre Bateau
                                     </MotionButton>
                                 </Link>
 
                                 <Link to="/services" style={{ textDecoration: "none" }}>
                                     <MotionButton
-                                        variant="contained"
-                                        color="secondary"
+                                        variant="outlined"
                                         size="large"
                                         whileHover={buttonHoverEffect}
                                         whileTap={{ scale: 0.98 }}
@@ -646,6 +677,16 @@ const HeroSection: React.FC = () => {
                                             py: 1.8,
                                             minWidth: { xs: "80%", sm: "200px" },
                                             alignSelf: { xs: "center", sm: "auto" },
+                                            color: "white",
+                                            borderColor: "rgba(255, 255, 255, 0.5)",
+                                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                            backdropFilter: "blur(10px)",
+                                            transition: "all 0.3s ease",
+                                            "&:hover": {
+                                                borderColor: "white",
+                                                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0 0 15px rgba(255, 255, 255, 0.4)",
+                                            }
                                         }}
                                     >
                                         Nos services
