@@ -307,7 +307,7 @@ const BoatCard: React.FC<BoatCardProps> = ({
                 zIndex: 2
               }}
             >
-              View Details
+              Voir
             </MotionButton>
           </MotionBox>
           

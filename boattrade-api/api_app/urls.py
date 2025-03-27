@@ -11,8 +11,8 @@ router.register(r'testimonials', views.TestimonialViewSet)
 router.register(r'blog', views.BlogPostViewSet)
 
 sitemaps = {
-    'boats': BoatSitemap,
-    'static': StaticViewSitemap,
+    'boats': BoatSitemap(),
+    'static': StaticViewSitemap(),
 }
 
 urlpatterns = [
@@ -20,5 +20,7 @@ urlpatterns = [
     path('inquiries/', views.submit_inquiry, name='submit_inquiry'),
     path('sell-requests/', views.submit_sell_request, name='submit_sell_request'),
     path('featured-boats/', views.get_featured_boats, name='featured_boats'),
+    # Simplified sitemap configuration
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap-<section>.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

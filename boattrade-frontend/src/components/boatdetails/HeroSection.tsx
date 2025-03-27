@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Box, Typography, Container, Button, Chip } from "@mui/material";
+import { useState } from "react";
+import { Box, Typography, Container, Chip } from "@mui/material";
 import { motion } from "framer-motion";
 import { Boat } from "../../models/Boat";
 import LocationOnIcon from "@mui/icons-material/LocationOn";

@@ -1,5 +1,5 @@
-import { Routes, Route, useLocation } from "react-router-dom";
-import { CssBaseline, Box, ThemeProvider } from "@mui/material";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useEffect } from "react";
 import "./App.css";
 import BoatListingPage from "./components/boatslistings/BoatListingPage";
@@ -36,14 +36,15 @@ const Layout = () => {
                 <Route path="/boats" element={<BoatListingPage />} />
                 <Route path="/boats/:boatId" element={<BoatDetailPage />} />
                 <Route path="/services" element={<ServicesPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer />
         </>
     );
 };
 
-const NotFoundPage = () => <div>Page not found</div>;
+// Replace the NotFoundPage with Navigate
+// const NotFoundPage = () => <div>Page not found</div>;
 
 function App() {
     return (

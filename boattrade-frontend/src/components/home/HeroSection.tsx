@@ -64,7 +64,6 @@ const HeroSection: React.FC = () => {
         
         // Only load if not already loaded
         if (!loadedVideos.includes(videoSrc) && videoRef.current) {
-            console.log(`Loading video ${index}: ${videoSrc}`);
             videoRef.current.src = videoSrc;
             videoRef.current.load();
             setLoadedVideos(prev => [...prev, videoSrc]);
@@ -556,7 +555,7 @@ const HeroSection: React.FC = () => {
                             </MotionTypography>
 
                             <MotionTypography
-                                variant="h2"
+                                variant="h1"
                                 style={{ opacity: titleOpacity, y: titleY }}
                                 color="white"
                                 sx={{

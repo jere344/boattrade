@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'api_app',
     'auth_app',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [

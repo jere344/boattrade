@@ -7,13 +7,16 @@ class BoatSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        return Boat.objects.filter(is_active=True)
+        # Added order_by to fix the unordered object list warning
+        return Boat.objects.filter(is_active=True).order_by('id')
     
     def lastmod(self, obj):
         return obj.updated_at
     
+    # Use absolute URLs for boat details
     def location(self, obj):
-        return f"/boats/{obj.id}"
+        # For absolute URLs, you might want to include your domain
+        return f"/boats/{obj.id}/"
 
 class StaticViewSitemap(Sitemap):
     priority = 0.5
@@ -26,6 +29,7 @@ class StaticViewSitemap(Sitemap):
         if item == 'homepage':
             return '/'
         elif item == 'boats_listing':
-            return '/boats'
+            return '/boats/'
         elif item == 'services':
-            return '/services'
+            return '/services/'
+        return '/'
