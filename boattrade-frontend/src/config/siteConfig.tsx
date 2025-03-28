@@ -31,6 +31,9 @@ export const navigationLinks = [
   { name: "Accueil", path: "/" },
   { name: "Les bateaux de nos partenaires", path: "/boats" },
   { name: "Nos services", path: "/services" },
+  { name: "Voiliers", path: "/boats?category=1" },
+  { name: "Semi-rigides", path: "/boats?category=2" },
+  { name: "Moteurs", path: "/boats?category=3" },
 ];
 
 // Contact information with icons

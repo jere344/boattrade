@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, IconButton, useTheme, Typography, Grid } from "@mui/material";
+import { Button, Box, IconButton, useTheme, Typography, Grid, Divider } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import SailingIcon from '@mui/icons-material/Sailing';
 import HandshakeIcon from '@mui/icons-material/Handshake';
-import { contactInfo, socialMedia, companyInfo } from "../../config/siteConfig";
+import { contactInfo, socialMedia, companyInfo, navigationLinks } from "../../config/siteConfig";
 import logoImage from "@assets/logo.webp";
 
 // Motion-enhanced components
@@ -44,6 +44,37 @@ const Header = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Add effect to prevent background scrolling when menu is open
+    useEffect(() => {
+        if (open) {
+            // Store the current scroll position
+            const scrollY = window.scrollY;
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+            // Set the position to fixed to prevent iOS bounce effect
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+        } else {
+            // Restore scrolling when menu is closed
+            const scrollY = document.body.style.top;
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            // Restore scroll position
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+        
+        return () => {
+            // Clean up when component unmounts
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+        };
+    }, [open]);
 
     // Animation variants for the menu overlay with circular/diagonal opening
     const overlayVariants = {
@@ -87,6 +118,11 @@ const Header = () => {
             },
         },
     };
+
+    // Extract boat categories from navigation links
+    const boatCategories = navigationLinks.filter(link => 
+        link.path.includes('?category=')
+    )
 
     return (
         <>
@@ -175,8 +211,10 @@ const Header = () => {
                             flexDirection: "column",
                             p: 4,
                             pt: 6,
-                            overflow: "hidden",
+                            overflow: "auto", // Changed from "hidden" to "auto" to make it scrollable
                             transformOrigin: "top right",
+                            maxHeight: "100vh", // Ensure it doesn't exceed viewport height
+                            overscrollBehavior: "contain", // Prevent scroll chaining
                         }}
                     >
                         {/* Wave decoration */}
@@ -253,6 +291,7 @@ const Header = () => {
                                 width: "100%",
                                 maxWidth: "1000px",
                                 mx: "auto",
+                                overflow: "visible", // Ensure content can be scrolled
                             }}
                         >
                             {/* Description text */}
@@ -335,7 +374,7 @@ const Header = () => {
                             </MotionBox>
 
                             {/* Our Services Button */}
-                            <MotionBox variants={menuItemVariants} sx={{ mb: 4 }}>
+                            <MotionBox variants={menuItemVariants} sx={{ mb: 5 }}>
                                 <Button
                                     variant="outlined"
                                     component={RouterLink}
@@ -365,6 +404,73 @@ const Header = () => {
                                 >
                                     Nos services
                                 </Button>
+                            </MotionBox>
+
+                            {/* Boat Categories Section */}
+                            <MotionBox 
+                                variants={menuItemVariants} 
+                                sx={{ 
+                                    width: "100%", 
+                                    maxWidth: "500px", 
+                                    mb: 4,
+                                    mt: 2 
+                                }}
+                            >
+                                <Divider 
+                                    sx={{ 
+                                        mb: 3, 
+                                        borderColor: "rgba(255,255,255,0.1)",
+                                        opacity: 0.5,
+                                        width: "60%",
+                                        mx: "auto"
+                                    }}
+                                />
+                                
+                                <Typography 
+                                    variant="subtitle2" 
+                                    align="center" 
+                                    sx={{ 
+                                        color: "rgba(255,255,255,0.5)", 
+                                        mb: 2.5,
+                                        fontSize: "0.85rem",
+                                        letterSpacing: "0.5px",
+                                        textTransform: "uppercase"
+                                    }}
+                                >
+                                    Explorer par catégorie
+                                </Typography>
+                                
+                                <Grid container spacing={2} justifyContent="center">
+                                    {boatCategories.map((category, index) => (
+                                        <Grid item key={index} xs={12} sm={4}>
+                                            <Button
+                                                variant="text"
+                                                component={RouterLink}
+                                                to={category.path}
+                                                onClick={toggleDrawer}
+                                                sx={{
+                                                    color: "#B0E0E6",
+                                                    fontSize: "0.95rem",
+                                                    width: "100%",
+                                                    py: 1,
+                                                    background: "rgba(255, 255, 255, 0.03)",
+                                                    backdropFilter: "blur(8px)",
+                                                    borderRadius: "8px",
+                                                    fontWeight: 500,
+                                                    textTransform: "none",
+                                                    transition: "all 0.3s ease",
+                                                    border: "1px solid rgba(176, 224, 230, 0.1)",
+                                                    "&:hover": {
+                                                        background: "rgba(255, 255, 255, 0.08)",
+                                                        borderColor: "rgba(176, 224, 230, 0.3)",
+                                                    },
+                                                }}
+                                            >
+                                                {category.name}
+                                            </Button>
+                                        </Grid>
+                                    ))}
+                                </Grid>
                             </MotionBox>
 
                         </Box>
