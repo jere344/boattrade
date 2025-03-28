@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import {
   Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
   Button,
-  SelectChangeEvent,
   Box,
   Typography,
   InputAdornment,
@@ -17,7 +12,11 @@ import {
   Tooltip,
   IconButton,
   Fade,
-  Chip
+  Chip,
+  Avatar,
+  Card,
+  CardActionArea,
+  Collapse
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Category } from '../../models/Category';
@@ -26,10 +25,14 @@ import EuroIcon from '@mui/icons-material/Euro';
 import TuneIcon from '@mui/icons-material/Tune';
 import SailingIcon from '@mui/icons-material/Sailing';
 import ClearIcon from '@mui/icons-material/Clear';
+import CategoryIcon from '@mui/icons-material/Category';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { motion } from 'framer-motion';
 import { useDebounce } from '../../hooks/useDebounce';
 
-const MotionPaper =  motion.create(Paper);
+const MotionPaper = motion.create(Paper);
+const MotionCard = motion.create(Card);
 
 interface BoatFiltersProps {
   categories: Category[];
@@ -64,6 +67,7 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
   const [localSearch, setLocalSearch] = useState(filters.search);
   const [localMinPrice, setLocalMinPrice] = useState(filters.minPrice);
   const [localMaxPrice, setLocalMaxPrice] = useState(filters.maxPrice);
+  const [showCategories, setShowCategories] = useState(true);
   
   // Refs for input elements to maintain focus
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -91,18 +95,19 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const categoryParam = params.get('category');
-    // now remove it from the URL
-    params.delete('category');
-    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
     
     if (categoryParam && categoryParam !== filters.category.toString()) {
       const categoryId = parseInt(categoryParam, 10);
       // Verify this is a valid category ID
       if (!isNaN(categoryId) && categories.some(cat => cat.id === categoryId)) {
         onFilterChange({ category: categoryId });
+        
+        // Remove it from the URL after applying the filter
+        params.delete('category');
+        window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
       }
     }
-  }, [categories]); // Only run on mount and when categories change
+  }, [categories, filters.category, onFilterChange]); // Include dependencies
   
   // Effect to restore focus after render
   useEffect(() => {
@@ -168,8 +173,8 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
     }
   };
   
-  const handleCategoryChange = (event: SelectChangeEvent<number | string>) => {
-    onFilterChange({ category: event.target.value });
+  const handleCategoryChange = (categoryId: number | string) => {
+    onFilterChange({ category: categoryId });
   };
   
   const clearSearch = () => {
@@ -243,36 +248,9 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
           </Box>
 
           <form onSubmit={(e) => e.preventDefault()}>
-            <Grid container spacing={3} alignItems="center">
-              <Grid size={{ xs: 12, md: 3 }}>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Catégorie</InputLabel>
-                  <Select
-                    value={filters.category}
-                    label="Catégorie"
-                    onChange={handleCategoryChange}
-                    disabled={loading}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SailingIcon fontSize="small" sx={{ color: 'primary.main' }} />
-                      </InputAdornment>
-                    }
-                    sx={{ 
-                      borderRadius: 1.5,
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: alpha(theme.palette.primary.main, 0.2)
-                      }
-                    }}
-                  >
-                    <MenuItem value=""><em>Toutes les catégories</em></MenuItem>
-                    {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid size={{ xs: 12, md: 3 }}>
+            {/* Search, Price Filters, and Reset Button Row */}
+            <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -313,7 +291,7 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
                 />
               </Grid>
 
-              <Grid size={{ xs: 6, md: 2 }}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -342,7 +320,7 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
                 />
               </Grid>
 
-              <Grid size={{ xs: 6, md: 2 }}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -395,6 +373,159 @@ const BoatFilters = forwardRef<unknown, BoatFiltersProps>(({
                 </Tooltip>
               </Grid>
             </Grid>
+            
+            {/* Category Grid Section */}
+            <Box sx={{ 
+              borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+              pt: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  mb: 1.5,
+                  width: '100%',
+                  maxWidth: 'md'
+                }}
+              >
+                <Typography 
+                  variant="subtitle1" 
+                  sx={{ 
+                    fontWeight: 600, 
+                    color: 'primary.main',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <CategoryIcon sx={{ mr: 1, fontSize: '1.2rem' }} />
+                  Catégories
+                </Typography>
+                <IconButton 
+                  size="small" 
+                  onClick={() => setShowCategories(!showCategories)}
+                  sx={{ color: 'primary.main' }}
+                >
+                  {showCategories ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </IconButton>
+              </Box>
+              
+              <Collapse in={showCategories} sx={{ width: '100%', maxWidth: 'md' }}>
+                <Grid container spacing={1} justifyContent="center">
+                  {/* All Categories Option */}
+                  <Grid size={{ xs: 2.4, sm: 2, md: 1.5 }}>
+                    <MotionCard
+                      whileHover={{ scale: 1.05, y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                      sx={{ 
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        border: filters.category === "" 
+                          ? `2px solid ${theme.palette.primary.main}` 
+                          : `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                        boxShadow: filters.category === ""
+                          ? `0 5px 15px ${alpha(theme.palette.primary.main, 0.2)}`
+                          : '0 2px 8px rgba(0,0,0,0.05)'
+                      }}
+                    >
+                      <CardActionArea 
+                        onClick={() => handleCategoryChange("")}
+                        sx={{ 
+                          display: 'flex', 
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          p: 1.5,
+                          height: '100%'
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            width: 50,
+                            height: 50,
+                            mb: 1,
+                            bgcolor: filters.category === "" ? 'primary.main' : 'action.selected',
+                            color: 'white'
+                          }}
+                        >
+                          <SailingIcon />
+                        </Avatar>
+                        <Typography 
+                          variant="body2" 
+                          align="center"
+                          sx={{ 
+                            fontWeight: filters.category === "" ? 600 : 400,
+                            color: filters.category === "" ? 'primary.main' : 'text.primary' 
+                          }}
+                        >
+                          Toutes
+                        </Typography>
+                      </CardActionArea>
+                    </MotionCard>
+                  </Grid>
+                  
+                  {/* Individual Category Cards */}
+                  {categories.map(category => (
+                    <Grid key={category.id} size={{ xs: 2.4, sm: 2, md: 1.5 }}>
+                      <MotionCard
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        whileTap={{ scale: 0.98 }}
+                        sx={{ 
+                          borderRadius: 2,
+                          overflow: 'hidden',
+                          border: filters.category === category.id 
+                            ? `2px solid ${theme.palette.primary.main}` 
+                            : `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                          boxShadow: filters.category === category.id
+                            ? `0 5px 15px ${alpha(theme.palette.primary.main, 0.2)}`
+                            : '0 2px 8px rgba(0,0,0,0.05)',
+                        }}
+                      >
+                        <CardActionArea 
+                          onClick={() => handleCategoryChange(category.id)}
+                          sx={{ 
+                            display: 'flex', 
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            p: 1.5,
+                            height: '100%'
+                          }}
+                        >
+                          <Avatar
+                            src={category.image}
+                            alt={category.name}
+                            variant="rounded"
+                            sx={{
+                              width: 50,
+                              height: 50,
+                              mb: 1,
+                              border: filters.category === category.id 
+                                ? `2px solid ${theme.palette.primary.main}` 
+                                : 'none',
+                              boxShadow: filters.category === category.id
+                                ? `0 3px 10px ${alpha(theme.palette.primary.main, 0.3)}`
+                                : 'none'
+                            }}
+                          />
+                          <Typography 
+                            variant="body2" 
+                            align="center"
+                            sx={{ 
+                              fontWeight: filters.category === category.id ? 600 : 400,
+                              color: filters.category === category.id ? 'primary.main' : 'text.primary' 
+                            }}
+                          >
+                            {category.name}
+                          </Typography>
+                        </CardActionArea>
+                      </MotionCard>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Collapse>
+            </Box>
           </form>
           
           {/* Active filters display */}
