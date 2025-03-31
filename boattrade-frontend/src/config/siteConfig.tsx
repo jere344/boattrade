@@ -20,10 +20,10 @@ export const companyInfo = {
 
 // Social media links
 export const socialMedia = [
-  { icon: <FacebookIcon />, color: "#3b5998", url: "https://facebook.com/boattrade" },
-  { icon: <TwitterIcon />, color: "#1DA1F2", url: "https://twitter.com/boattrade" },
-  { icon: <InstagramIcon />, color: "#C13584", url: "https://instagram.com/boattrade" },
-  { icon: <LinkedInIcon />, color: "#0e76a8", url: "https://linkedin.com/company/boattrade" },
+  // { icon: <FacebookIcon />, color: "#3b5998", url: "https://facebook.com/boattrade" },
+  // { icon: <TwitterIcon />, color: "#1DA1F2", url: "https://twitter.com/boattrade" },
+  // { icon: <InstagramIcon />, color: "#C13584", url: "https://instagram.com/boattrade" },
+  // { icon: <LinkedInIcon />, color: "#0e76a8", url: "https://linkedin.com/company/boattrade" },
 ];
 
 // Navigation links
