@@ -92,13 +92,13 @@ def submit_inquiry(request):
         inquiry = serializer.save()
         
         # Send email notification to admin
-        subject = f"New Inquiry: {boat.title}"
+        subject = f"Nouvelle demande: {boat.title}"
         message = f"""
-        Someone is interested in {boat.title}!
+        Quelqu'un est intéressé par {boat.title}!
         
-        From: {inquiry.first_name} {inquiry.last_name}
+        De: {inquiry.first_name} {inquiry.last_name}
         Email: {inquiry.email}
-        Phone: {inquiry.phone or 'Not provided'}
+        Téléphone: {inquiry.phone or 'Not provided'}
         
         Message:
         {inquiry.comment}
@@ -143,22 +143,24 @@ def submit_sell_request(request):
                 image_info.append(f"- {image.name} ({image.size/1024:.1f} KB)")
         
         # Send email notification to admin
-        subject = "New Boat Selling Request"
+        subject = "Nouvelle demande de vente de bateau"
         message = f"""
-        Someone wants to sell their boat!
+        Quelqu'un veut vendre un bateau!
         
-        From: {sell_request.first_name} {sell_request.last_name}
+        De: {sell_request.first_name} {sell_request.last_name}
         Email: {sell_request.email}
-        Phone: {sell_request.phone}
+        Téléphone: {sell_request.phone}
         
-        Boat Details:
+        Details du bateau:
         {sell_request.boat_details}
         
-        Additional Comments:
+        Commentaires:
         {sell_request.comment}
         
         Uploaded Images ({len(image_info)} total):
         {"None" if not image_info else "\n".join(image_info)}
+
+        Visitez l'arrière boutique pour voir les images.
         """
         try:
             print("Sending email")
