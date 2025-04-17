@@ -20,7 +20,7 @@ export const companyInfo = {
 
 // Social media links
 export const socialMedia = [
-  // { icon: <FacebookIcon />, color: "#3b5998", url: "https://facebook.com/boattrade" },
+  { icon: <FacebookIcon />, color: "#3b5998", url: "https://www.facebook.com/people/Boat-Trade-Consulting/61575508940835/" },
   // { icon: <TwitterIcon />, color: "#1DA1F2", url: "https://twitter.com/boattrade" },
   // { icon: <InstagramIcon />, color: "#C13584", url: "https://instagram.com/boattrade" },
   // { icon: <LinkedInIcon />, color: "#0e76a8", url: "https://linkedin.com/company/boattrade" },
