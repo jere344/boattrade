@@ -15,16 +15,6 @@ const FooterSpacerSection: React.FC = () => {
           width="230" 
           height="auto"
           style={{ 
-            filter: `
-              drop-shadow(1px 0 0 black) 
-              drop-shadow(-1px 0 0 black)
-              drop-shadow(0 1px 0 black)
-              drop-shadow(0 -1px 0 black)
-              drop-shadow(1px 1px 0 black)
-              drop-shadow(-1px -1px 0 black)
-              drop-shadow(1px -1px 0 black)
-              drop-shadow(-1px 1px 0 black)
-            `,
             opacity: 1
           }}
         />
