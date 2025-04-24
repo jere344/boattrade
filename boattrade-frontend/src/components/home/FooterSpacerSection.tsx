@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Container } from '@mui/material';
 // import AnchorIcon from '../../assets/anchor.svg';
-import logo from '../../assets/logo.webp';
+import logo from '../../assets/logo-reversed.webp';
 
 
 const FooterSpacerSection: React.FC = () => {
