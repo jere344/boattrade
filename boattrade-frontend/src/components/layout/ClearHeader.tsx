@@ -8,7 +8,7 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import SailingIcon from '@mui/icons-material/Sailing';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { contactInfo, socialMedia, companyInfo } from "../../config/siteConfig";
-import logoImage from "@assets/logo.webp";
+import logoImage from "@assets/logo-reversed.webp";
 
 // Motion-enhanced components
 const MotionBox = motion.create(Box);
